@@ -7,7 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -20,8 +23,14 @@ import NolanBackground.*;
 public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 	private JPanel contentPane;
+	static JList itemList;
+	static DefaultListModel itemListModel;
 	static JButton button1;
 	static JButton button2;
+	static JButton btnGenerator;
+	static ArrayList<JButton> button = new ArrayList<JButton>();
+	static int buttonI = 0;
+	
 	
 	/**
 	 * Launch the application.
@@ -51,8 +60,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		JList list = new JList();
-		contentPane.add(list, BorderLayout.WEST);
+		itemListModel = new DefaultListModel();
+		itemList = new JList(itemListModel);
+		itemList.setSize(new Dimension(200,500));
+		itemList.setLocation(10, 10);
+		contentPane.add(itemList, BorderLayout.WEST);
 		
 		button1 = new JButton("SkateGuard");
 		button1.setSize(new Dimension(100,100));
@@ -64,9 +76,16 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		button2.setLocation(620, 50);
 		contentPane.add(button2, BorderLayout.EAST);
 		
-	
+		btnGenerator = new JButton("Generate");
+		btnGenerator.setSize(new Dimension(100,100));
+		btnGenerator.setLocation(1100, 520);
+		contentPane.add(btnGenerator, BorderLayout.EAST);
+		
+		
 		addKeyListener(this);
 		button1.addActionListener(this);
+		btnGenerator.addActionListener(this);
+		
 		
 			 
 
@@ -98,6 +117,20 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		// TODO Auto-generated method stub
 		if (e.getSource() == button1){
 			System.out.print("test");
+			String buttonText = String.format("%s", button1.getText());
+			itemListModel.addElement(buttonText);
+
+		} else if (e.getSource() == btnGenerator){
+			System.out.print("Generator pressed");
+			buttonI ++;
+			JButton btn = new JButton("ChinGuard");
+			btn.setSize(new Dimension(100,100));
+			btn.setLocation(620+120*buttonI, 50);
+			contentPane.add(btn, BorderLayout.EAST);
+			button.add(btn);
+			this.repaint();
+
 		}
 	}
+	
 	}
