@@ -3,9 +3,12 @@ package NolanBackground;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import JoshDatabase.*;
+import JayUI.*;
+
 public class BackgroundMain {
 	
-	public static ArrayList<Items> items = new ArrayList<Items>();
+	public static ArrayList<String> items = new ArrayList<String>();
 	
 	
 	
@@ -22,7 +25,20 @@ public class BackgroundMain {
 	}
 	
 	
-	//STUF
+	public static double add(String name){
+		
+		double price = DatabaseMain.getPrice(name);
+		double PST = DatabaseMain.getPST(name);
+		double GST = DatabaseMain.getGST(name);
+		
+		double afterPST = price * PST;
+		double afterGST = price * GST;
+		
+		items.add(name);
+		
+		return price + PST + GST;
+		
+	}
 	
 	
 	

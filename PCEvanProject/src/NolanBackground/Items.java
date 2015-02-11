@@ -13,6 +13,7 @@ public class Items {
 	private String name;
 	private double price;
 	private double PST;
+	private double GST;
 	
 	
 	
@@ -35,6 +36,12 @@ public class Items {
 	}
 	public void setPST(double pST) {
 		PST = pST;
+	}
+	public double getGST() {
+		return GST;
+	}
+	public void setGST(double gST) {
+		GST = gST;
 	}
 	
 	//STUF
