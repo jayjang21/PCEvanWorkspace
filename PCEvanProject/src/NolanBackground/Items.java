@@ -2,10 +2,11 @@ package NolanBackground;
 
 public class Items {
 	
-	public Items(String name , double price , double PST){
+	public Items(String name , double price , double PST , double GST){
 		this.name = name;
 		this.price = price;
 		this.PST = PST;
+		this.GST = GST;
 	}
 	
 	
