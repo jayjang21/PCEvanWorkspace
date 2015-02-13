@@ -218,8 +218,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		comboBox.setBounds(35, 560, 150, 27);
 		comboBox.setEditable(true);
 		comboBox.addItem("Cash");
-		comboBox.addItem("Credit Card");
-		comboBox.addItem("Debit Card");
+		comboBox.addItem("Dbit Card");
+		comboBox.addItem("Master Card");
+		comboBox.addItem("Visa Card");
 
 		contentPane.add(comboBox);
 		
@@ -307,7 +308,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 				itemListReceipt.add(itemList.getComponent(i).toString());
 			}
 			itemListReceipt.add(lblTotalPrice.getText());
-			itemListReceipt.add(lblPaymentType.getText());
+			itemListReceipt.add(comboBox.getEditor().getItem().toString());
+			
+			itemListModel.removeAllElements();
+			lblTotalPrice.setText("Total Price =");
+			
 			//BackgroundMain.writeReceipt;
 		}  else if (e.getSource() == btnDeleteItem){
 			deleteItem = new UIDeleteItem();

@@ -17,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import JayUI.UIMain;
-import NolanBackground.*;
-
 public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 
 	private JPanel contentPane;
@@ -153,12 +151,6 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 			UIMain.scrollContentPane.setPreferredSize(new Dimension(730,i+100+20));
 			UIMain.scrollContentPane.setSize(730,i+100+20);
 
-			double itemPrice = Double.parseDouble(tfItemPrice.getText());
-			double itemPST = Double.parseDouble(tfItemPST.getText());
-			double itemGST = Double.parseDouble(tfItemGST.getText());
-
-			
-			BackgroundMain2.newItem(new Items(tfItemName.getText(),itemPrice,itemPST,itemGST));
 
 			UIMain.scrollPane.repaint();
 			tfItemName.setText("");
