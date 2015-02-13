@@ -45,7 +45,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static int buttonI;
 	static UIAddItem addItem;
 	static UIDeleteItem deleteItem;
+	static UISetting setting;
 	static UIMain frame;
+	
 	static JScrollPane scrollPane;
 	static int btnCollum = 0;
 	static JButton btnCreditCard;
@@ -58,6 +60,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static JButton btnComboBoxMinus;
 	static JComboBox comboBox;
 	static JButton btnClear;
+	static JButton btnSetting;
 	
 	
 	/**
@@ -70,6 +73,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 					frame = new UIMain();
 					frame.setExtendedState(MAXIMIZED_BOTH);
 					frame.setVisible(true);
+					
 					
 					
 				} catch (Exception e) {
@@ -216,6 +220,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnComboBoxMinus.setLocation(230, 563);
 		contentPane.add(btnComboBoxMinus, null);
 		
+		btnSetting = new JButton("Setting");
+		btnSetting.setSize(new Dimension(60,40));
+		btnSetting.setLocation(1205, 15);
+		contentPane.add(btnSetting, null);
+		
 		lblTotalPrice = new JLabel("Total Price = ");
 		lblTotalPrice.setBounds(40, 530, 200, 16);
 		contentPane.add(lblTotalPrice);
@@ -243,7 +252,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnComboBoxPlus.addActionListener(this);
 		btnComboBoxMinus.addActionListener(this);
 		btnClear.addActionListener(this);
-		
+		btnSetting.addActionListener(this);
+
 		setFocusable(true);
 
 	
@@ -356,6 +366,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		} else if (e.getSource() == btnClear){
 			itemListModel.removeAllElements();
 			lblTotalPrice.setText("Total Price =");
+		} else if (e.getSource() == btnSetting){
+			setting = new UISetting();
+			setting.setVisible(true);
 		}
 		
 		}
