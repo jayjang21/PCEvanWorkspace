@@ -113,7 +113,6 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 					}
 				i++;
 			}
-			//Nolan delete Item
 			textField.setText("");
 			//focus the textField.
 			textField.requestFocus();
