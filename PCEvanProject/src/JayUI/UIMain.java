@@ -57,6 +57,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static JButton btnComboBoxPlus;
 	static JButton btnComboBoxMinus;
 	static JComboBox comboBox;
+	static JButton btnClear;
 	
 	
 	/**
@@ -200,6 +201,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnMinus.setLocation(215, 15);
 		contentPane.add(btnMinus, null);
 		
+		btnClear = new JButton("Clear");
+		btnClear.setSize(new Dimension(60,40));
+		btnClear.setLocation(215, 55);
+		contentPane.add(btnClear, null);
+		
 		btnComboBoxPlus = new JButton("+");
 		btnComboBoxPlus.setSize(new Dimension(20,20));
 		btnComboBoxPlus.setLocation(205, 563);
@@ -236,6 +242,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnMinus.addActionListener(this);
 		btnComboBoxPlus.addActionListener(this);
 		btnComboBoxMinus.addActionListener(this);
+		btnClear.addActionListener(this);
 		
 		setFocusable(true);
 
@@ -346,6 +353,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		} else if (e.getSource() == btnComboBoxMinus){
 			comboBox.removeItem(comboBox.getSelectedItem());
 			comboBox.getEditor().setItem("");
+		} else if (e.getSource() == btnClear){
+			itemListModel.removeAllElements();
+			lblTotalPrice.setText("Total Price =");
 		}
 		
 		}
