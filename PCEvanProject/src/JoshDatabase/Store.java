@@ -1,6 +1,5 @@
 package JoshDatabase;
-
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
  
 public class Store 
 {	    
@@ -25,13 +25,15 @@ public class Store
 		c[0] = "Apple";
 		c[1] = "10";
 		c[2] = "abc1234";
-		delete("Items.json","items","Apple");
-		newaddition("Items.json","items",c,3);	
+		delete("Items.json","Apple");
+		newaddition("swagger.json",c,3);
+		readablesales("sales1.sales",c,3);
 		}
 		
-		public static int filesize(String file, String type)
+		private static int filesize(String file)
 		{
 			int i = 0;
+			String type = "array";
 			String a = "";
 			JSONParser parser = new JSONParser();
 			try 
@@ -54,17 +56,15 @@ public class Store
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			finally{
-			return i;	
-			}
 			
-						
+			return i;				
 		}
-		public static String[] makeitems(String file, String type)
+		public static String[] getitems(String file, int additionsize)
 		{
 			
 				int i = 0;
-				String a[] = new String[filesize(file,type)+4];
+				String type = "array";
+				String a[] = new String[filesize(file)+4];
 				JSONParser parser = new JSONParser();
 					try 
 					{
@@ -91,13 +91,35 @@ public class Store
 			
 			return a;
 		}
-		public static void delete(String file, String type, String name)
+		public static boolean deletefile(String filename)
 		{
+			boolean success = false;
+			try{
+				 
+	    		File file = new File(filename);
+	    		if(file.delete()){
+	    			System.out.println(file.getName() + " is deleted!");
+	    			success = true;
+	    		}else{
+	    			System.out.println("Delete operation is failed.");
+	    			success = false;
+	    		}
+	 
+	    	}catch(Exception e){
+	 
+	    		e.printStackTrace();
+	 
+	    	}
+			return success;
+		}
+		public static void delete(String file, String name)
+		{
+			String type = "array";
 			JSONObject obj = new JSONObject();
     		JSONArray items = new JSONArray();
-    		String a[] = new String[filesize(file,type)];
-    		a = makeitems(file,type);
-    		for(int i = 0; i < filesize(file,type); i++)
+    		String a[] = new String[filesize(file)];
+    		a = getitems(file,1);
+    		for(int i = 0; i < filesize(file); i++)
     		{	
     			if(a[i] == name)
     			{
@@ -112,28 +134,53 @@ public class Store
     		
     		try 
         	{
-    			System.out.println("size of array before addition = "+filesize(file,type));
+    			System.out.println("size of array before addition = "+filesize(file));
         		FileWriter writer = new FileWriter(file);
         		writer.write(obj.toJSONString());
         		writer.flush();
         		writer.close();
-        		System.out.println("size of array after addition = "+filesize(file,type));
+        		System.out.println("size of array after addition = "+filesize(file));
         	}   
         	catch (IOException e) 
         	{
         	   e.printStackTrace();
         	}
 		}
-		public static void newaddition(String file, String type, String additions[], int additionsize)
+		public static void readablesales(String file, String sales[], int arraylength)
+		{
+			
+			
+    		try {	
+    			FileWriter writer = new FileWriter(file);
+    			for(int i = 0; i < arraylength; i++)
+    			{
+				writer.write(("\n "+ sales[i]));
+    			}
+				writer.flush();
+	    		writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+    		
+		}
+		public static void newaddition(String file, String additions[], int additionsize)
     	{
     		JSONObject obj = new JSONObject();
     		JSONArray items = new JSONArray();
-    		String a[] = new String[filesize(file,type)+additionsize];
-    		a = makeitems(file,type);
+    		String type = "array";
+    		String a[] = new String[filesize(file)+additionsize];
+    		File f = new File(file);
+    		if(f.exists() && !f.isDirectory()) 
+    		{ 
+    			a = getitems(file,additionsize); 
+    		}
     		
-    		for(int i = 0; i < filesize(file,type)+additionsize; i++)
+    		
+    		for(int i = 0; i < filesize(file)+additionsize; i++)
     		{	
-    			
+    		//add compatibility for multiple arrays	
     				if(a[i] != null)
     				{
     				items.add(a[i]);
@@ -142,7 +189,7 @@ public class Store
     		}
     		for(int i = 0; i < additionsize; i++)
     		{
-    		//checkmif it has been added before for items and deals only
+    		
     			items.add(additions[i]);
     			
     		}
@@ -150,12 +197,12 @@ public class Store
     		
     		try 
         	{
-    			System.out.println("size of array before addition = "+filesize(file,type));
+    			System.out.println("size of array before addition = "+filesize(file));
         		FileWriter writer = new FileWriter(file);
         		writer.write(obj.toJSONString());
         		writer.flush();
         		writer.close();
-        		System.out.println("size of array after addition = "+filesize(file,type));
+        		System.out.println("size of array after addition = "+filesize(file));
         	}   
         	catch (IOException e) 
         	{
@@ -163,5 +210,4 @@ public class Store
         	}
     	}
 		
-
 }
