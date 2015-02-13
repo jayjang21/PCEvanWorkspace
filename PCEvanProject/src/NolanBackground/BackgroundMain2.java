@@ -20,6 +20,7 @@ public class BackgroundMain2 {
 	
 	public static double getPrice(String name){
 		Items i = getItem(name);
+		totalPrice += i.getPrice();
 		return i.getPrice();
 	}
 	
