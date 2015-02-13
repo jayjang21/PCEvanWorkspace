@@ -1,6 +1,9 @@
 package NolanBackground;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import JoshDatabase.Store;
 
@@ -49,7 +54,7 @@ public class BackgroundMain2 {
 	}
 	
 	public static Items getItem(String name){
-		String[] string =  Store.getitems(path + "/" + name + ".txt", 3);
+		String[] string =  Store.getitems(path + "/" + name, 3);
 		JSONObject obj = new JSONObject();
 		obj.put("name", string[1]);
 		obj.put("price", string[2]);
@@ -58,6 +63,7 @@ public class BackgroundMain2 {
 		Items i = new Items(string[1] , Double.parseDouble((String) obj.get("price")) , Double.parseDouble( (String) obj.get("PST")) , Double.parseDouble((String) obj.get("GST")));	
 
 		return i;
+		
 	}
 	
 	
@@ -67,15 +73,21 @@ public class BackgroundMain2 {
 		
 			File file = new File(path);
 			for(File f : file.listFiles()){
-				String[] items = Store.getitems(f.getPath(), 4);
+				String[] string =  Store.getitems(path + "/" + f.getName(), 5);
+				if(f.isFile() &! f.isDirectory()){
+				Items i = getItem(f.getName());
+				/*
+				String[] items = Store.getitems(f.getPath(), 3);
 				JSONObject obj = new JSONObject();
-				obj.put("name", items[1]);
-				obj.put("price", items[2]);
-				obj.put("PST", items[3]);
-				obj.put("GST", items[4]);
-				Items i = new Items(items[1] , Double.parseDouble((String) obj.get("price")) , Double.parseDouble( (String) obj.get("PST")) , Double.parseDouble((String) obj.get("GST")));	
+				obj.put("name", items[0]);
+				obj.put("price", items[1]);
+				obj.put("PST", items[2]);
+				obj.put("GST", items[3]);
+				Items i = new Items(items[1] , Double.parseDouble((String) obj.get("price")) , Double.parseDouble( (String) obj.get("PST")) , Double.parseDouble((String) obj.get("GST")));
+				*/	
 				BackgroundMain2.items.add(i);
 				answer.add(i.getName());
+				}
 			}
 		
 		
@@ -103,6 +115,7 @@ public class BackgroundMain2 {
 		}
 		
 		String[] string = Store.getitems(file2.getPath(), 2);
+		if(!string[1].equals("null"))
 		path = string[1];
 	}
 	
@@ -233,4 +246,39 @@ public class BackgroundMain2 {
 	
 	
 	*/
+	
+	public static JSONObject get(String file){
+		
+		JSONParser parser = new JSONParser();
+		try {
+			FileReader reader = new FileReader(path + "/" + file);
+			try {
+				return  (JSONObject) parser.parse(reader);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
+		
+	}
+	
+	public static void  write(String file){
+		try {
+			FileWriter writer = new FileWriter(path + "/" + file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
