@@ -20,7 +20,7 @@ public class BackgroundMain2 {
 	
 	public static double getPrice(String name){
 		Items i = getItem(name);
-		return (i.getPrice() + (i.getPrice() * i.getGST()) + (i.getPrice() * i.getPST()));
+		return i.getPrice();
 	}
 	
 	public static double getTotalPrice(){
@@ -34,7 +34,7 @@ public class BackgroundMain2 {
 	public static double addItemToCart(String name){
 		Items i = getItem(name);
 
-		totalPrice = totalPrice + (i.getPrice() + (i.getPrice() * i.getGST()) + (i.getPrice() * i.getPST()));
+		totalPrice = totalPrice + i.getPrice();
 
 		return getPrice(name);
 	}
@@ -75,6 +75,8 @@ public class BackgroundMain2 {
 	}
 	
 	public static void writeReceipt(String[] stuff){
+		
+		
 	
 		File file2 = new File(path + "/" + "receipts");
 		int i = 0;
@@ -97,12 +99,40 @@ public class BackgroundMain2 {
 		totalPrice = 0;
 	}
 	
+	public static void totalGSTPST(double PST , double GST){
+		File file = new File(path + "/" + "receipts" + "/" + "GST&PST.txt");
+		
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		JSONObject old = new JSONObject();
+		
+		double pst = Double.parseDouble((String) old.get("PST"));
+		double gst = Double.parseDouble((String) old.get("GST"));
+		
+		pst = pst + PST;
+		gst = gst + GST;
+		
+		JSONObject obj = new JSONObject();
+		
+		obj.put("PST: ", "$" + pst);
+		obj.put("GST: ", "$" + gst);
+		
+		
+	}
+	
+	
 	public static void newItem(Items i){
 		JSONObject obj = new JSONObject();
 		obj.put("name", i.getName());
 		obj.put("price", i.getPrice());
-		obj.put("PST", i.getPST());
-		obj.put("GST", i.getGST());
+		obj.put("PST", i.getPST() / 100);
+		obj.put("GST", i.getGST() / 100);
 		
 		String[] str = new String[4];
 		str[0] = (String) obj.get("name");
