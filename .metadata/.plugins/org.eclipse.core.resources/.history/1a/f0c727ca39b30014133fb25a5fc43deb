@@ -1,0 +1,57 @@
+package JayUI;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+public class UIDeleteItem extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	static JButton btnDeleteItem;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UIDeleteItem frame = new UIDeleteItem();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public UIDeleteItem() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
+		
+		textField = new JTextField();
+		textField.setLocation(150, 150);
+		textField.setSize(200, 30);
+		contentPane.add(textField, BorderLayout.NORTH);
+		textField.setColumns(10);
+		
+		btnDeleteItem = new JButton("Delete Item");
+		btnDeleteItem.setSize(100, 50);
+		btnDeleteItem.setLocation(340, 220);
+		contentPane.add(btnDeleteItem, BorderLayout.CENTER);
+	}
+
+}

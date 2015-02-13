@@ -22,7 +22,6 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 	private JPanel contentPane;
 	static JTextField textField;
 	static JButton btnFinish;
-	public UIMain uiMain;
 	
 	/**
 	 * Launch the application.
@@ -51,7 +50,8 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("Item Name :");
+		
+		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setSize(new Dimension(100, 50));
 		lblNewLabel.setLocation(65, 50);
 		contentPane.add(lblNewLabel, BorderLayout.NORTH);
@@ -91,19 +91,39 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
 		if (e.getSource() == btnFinish){
 			System.out.print("btnFinish pressed");
+			boolean nameExists = false;
+			for (JButton bt : UIMain.button){
+				if (bt.getText().equals(textField.getText())){
+					System.out.print("This name that you are trying to generate already exists");
+					nameExists = true;
+					break;
+				}
+			}
+			if (!nameExists){
 			JButton btn = new JButton(String.format("%s", textField.getText()));
 			btn.setSize(new Dimension(100,100));
-			btn.setLocation(500+120*UIMain.buttonI, 50);
+			UIMain.setProperBtnLocation(btn);
 			btn.addActionListener(UIMain.frame);
-			UIMain.contentPane.add(btn, BorderLayout.EAST);
+			UIMain.scrollContentPane.add(btn, BorderLayout.EAST);
 			UIMain.button.add(btn);
-			UIMain.buttonI ++;
-
 			
-			UIMain.contentPane.repaint();
+			UIMain.btnCollum ++;
+			UIMain.buttonI ++;
+			
+			int i = btn.getLocation().y;
+			UIMain.scrollContentPane.setPreferredSize(new Dimension(730,i+100+20));
+			UIMain.scrollContentPane.setSize(730,i+100+20);
+
+
+			UIMain.scrollPane.repaint();
 			textField.setText("");
+			//focus the textField.
+			textField.requestFocus();
+			}
 		}
 	}
+	
 }
