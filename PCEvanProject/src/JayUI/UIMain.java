@@ -40,7 +40,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static JButton btnGenerator;
 	static ArrayList<JButton> button = new ArrayList<JButton>();
 	static ArrayList<String> itemListReceipt = new ArrayList<String>();
-	static ArrayList<String> initItemNames = new ArrayList<String>();
+	//static ArrayList<String> initItemNames = new ArrayList<String>();
 
 	static int buttonI;
 	static UIAddItem addItem;
@@ -128,11 +128,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		contentPane.add(scrollPane, BorderLayout.WEST);
 		//scrollPane.setBounds(116, 133, 4, 4);
 
-		initItemNames = BackgroundMain2.getItems();
-		//String[] initItemNames = {"SkateGuard", "ChestGuard", "h", "k", "ie", "fjdkfj", "skdjfds","dkdk", "w", "q", "dd", "rrr", "wl", "wdkfj", "dkfjw", "r", "ekew", "widkfj", "qkqk", "dddd", "qqqqq", "dkdjwl", "wowowo", "ekd", "djflwkd", "wlwlwl", "dlfwkdj", "wkxkk", "qpqp", "dkfjw", "xkxk", "djwl"};
+		//initItemNames = BackgroundMain2.getItems();
+		String[] initItemNames = {"SkateGuard", "ChestGuard", "h", "k", "ie", "fjdkfj", "skdjfds","dkdk", "w", "q", "dd", "rrr", "wl", "wdkfj", "dkfjw", "r", "ekew", "widkfj", "qkqk", "dddd", "qqqqq", "dkdjwl", "wowowo", "ekd", "djflwkd", "wlwlwl", "dlfwkdj", "wkxkk", "qpqp", "dkfjw", "xkxk", "djwl"};
 		
-		for (int i = initItemNames.size(); i > 0; i --){
-			JButton btn = new JButton(String.format("%s", initItemNames.get(i - 1)));
+		for (int i = initItemNames.length; i > 0; i --){
+			JButton btn = new JButton(String.format("%s", initItemNames[i-1]));
 			btn.setSize(new Dimension(100,100));
 			setProperBtnLocation(btn);
 			btn.addActionListener(this);
