@@ -2,7 +2,10 @@ package NolanBackground;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.simple.JSONObject;
 
@@ -26,6 +29,11 @@ public class BackgroundMain2 {
 	
 	public static double getTotalPrice(){
 		return totalPrice;
+	}
+	
+	public static void removeItem(String name){
+		Items i = getItem(name);
+		totalPrice -= i.getPrice();
 	}
 	
 	public static void checkout(String paymentMethod , ArrayList<Items> items , double totalPrice){
@@ -75,9 +83,34 @@ public class BackgroundMain2 {
 		return answer;
 	}
 	
+	public static void setPath(){
+		File file = new File(path);
+		boolean s = false;
+		for(File f : file.listFiles()){
+			if(f.getName().equals("path")){
+				s = true;
+				String[] u = Store.getitems(f.getPath(), 3);
+				path = u[1];
+			}
+		}
+		File file2 = new File(path + "/" + "path");
+		if(s == false){
+		try {
+			file2.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		
+		String[] string = Store.getitems(file2.getPath(), 2);
+		path = string[1];
+	}
+	
 	public static void writeReceipt(String[] stuff){
 		
-		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
 	
 		File file2 = new File(path + "/" + "receipts");
 		int i = 0;
@@ -176,6 +209,10 @@ public class BackgroundMain2 {
 			}else{
 				
 			}
+		}
+		if(!any){
+			File file2 = new File(dir + "/" + "receipts");
+			file2.mkdir();
 		}
 	}
 	
