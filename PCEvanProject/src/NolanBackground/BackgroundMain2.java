@@ -68,13 +68,12 @@ public class BackgroundMain2 {
 			File file = new File(path);
 			for(File f : file.listFiles()){
 				String[] items = Store.getitems(f.getPath(), 4);
-				System.out.println(f.getPath().toString());
 				JSONObject obj = new JSONObject();
-				obj.put("name", items[0]);
-				obj.put("price", items[1]);
-				obj.put("PST", items[2]);
-				obj.put("GST", items[3]);
-				Items i = new Items(items[0] , Double.parseDouble((String) obj.get("price")) , Double.parseDouble( (String) obj.get("PST")) , Double.parseDouble((String) obj.get("GST")));	
+				obj.put("name", items[1]);
+				obj.put("price", items[2]);
+				obj.put("PST", items[3]);
+				obj.put("GST", items[4]);
+				Items i = new Items(items[1] , Double.parseDouble((String) obj.get("price")) , Double.parseDouble( (String) obj.get("PST")) , Double.parseDouble((String) obj.get("GST")));	
 				BackgroundMain2.items.add(i);
 				answer.add(i.getName());
 			}
