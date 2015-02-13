@@ -51,6 +51,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static JLabel lblTotalPrice;
 	static JLabel lblPaymentType;
 	static JButton btnDeleteItem;
+	static JButton btnMinus;
+	static JButton btnComboBoxPlus;
+	static JButton btnComboBoxMinus;
+	static JComboBox comboBox;
+	
 	
 	/**
 	 * Launch the application.
@@ -171,10 +176,6 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		button2.setLocation(620, 50);
 		contentPane.add(button2, BorderLayout.EAST);*/
 		
-		btnCreditCard = new JButton("Credit Card");
-		btnCreditCard.setSize(new Dimension(100,100));
-		btnCreditCard.setLocation(1100, 320);
-		contentPane.add(btnCreditCard, null);
 		
 		btnGenerator = new JButton("Generate");
 		btnGenerator.setSize(new Dimension(100,50));
@@ -192,23 +193,49 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnDeleteItem.setLocation(1100, 570);
 		contentPane.add(btnDeleteItem, null);
 		
+		btnMinus = new JButton("-");
+		btnMinus.setSize(new Dimension(40,40));
+		btnMinus.setLocation(215, 15);
+		contentPane.add(btnMinus, null);
+		
+		btnComboBoxPlus = new JButton("+");
+		btnComboBoxPlus.setSize(new Dimension(20,20));
+		btnComboBoxPlus.setLocation(205, 563);
+		contentPane.add(btnComboBoxPlus, null);
+		
+		btnComboBoxMinus = new JButton("-");
+		btnComboBoxMinus.setSize(new Dimension(20,20));
+		btnComboBoxMinus.setLocation(230, 563);
+		contentPane.add(btnComboBoxMinus, null);
+		
 		lblTotalPrice = new JLabel("Total Price = ");
 		lblTotalPrice.setBounds(40, 530, 100, 16);
 		contentPane.add(lblTotalPrice);
 		
-		lblPaymentType = new JLabel("");
-		lblPaymentType.setBounds(75, 555, 100, 16);
-		contentPane.add(lblPaymentType);
 		
 		
-		addKeyListener(this);
+		comboBox = new JComboBox();
+		comboBox.setBounds(35, 560, 150, 27);
+		comboBox.setEditable(true);
+		comboBox.addItem("Cash");
+		comboBox.addItem("Dbit Card");
+		comboBox.addItem("Master Card");
+		comboBox.addItem("Visa Card");
+
+		contentPane.add(comboBox);
+		
+		
+		
+		itemList.addKeyListener(this);
+		
 		btnGenerator.addActionListener(this);
 		btnDeleteItem.addActionListener(this);
-		btnCreditCard.addActionListener(this);
 		btnSaveReceipt.addActionListener(this);
+		btnMinus.addActionListener(this);
+		btnComboBoxPlus.addActionListener(this);
+		btnComboBoxMinus.addActionListener(this);
 		
-		
-			 
+		setFocusable(true);
 
 	
 	}
@@ -227,6 +254,16 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
+		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+			//itemList.remove(itemList.getSelectedIndex());
+			int ind = itemList.getSelectedIndex();
+			if (ind < 0){
+				System.out.print("No item is selected from the list yet");
+			} else {
+			itemListModel.remove(ind);
+			}
+			//itemList.repaint();
+		}
 	}
 
 	@Override
@@ -241,14 +278,13 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		for(JButton btn : button){
 		if (e.getSource() == btn){
 			System.out.print("test");
-			//double price = BackgroundMain.getItemPrice(btn.getText());
-			//Nolan
-			//String buttonText = String.format("%s = %f", btn.getText(), price);
+/*double price = BackgroundMain2.getPrice(btn.getText());
+			//Need the information
+			String buttonText = String.format("%s = %f", btn.getText(), price);*/
 			String buttonText = String.format("%s", btn.getText());
 			itemListModel.addElement(buttonText);
 			//lblTotalPrice.setText(String.format("Total Price = %d", BackgroundMain.getTotalPrice));
-			
-			
+//lblTotalPrice.setText(String.format("%f", BackgroundMain2.getTotalPrice()));
 		}  
 		}
 		if (e.getSource() == btnGenerator){
@@ -272,22 +308,49 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 				itemListReceipt.add(itemList.getComponent(i).toString());
 			}
 			itemListReceipt.add(lblTotalPrice.getText());
-			itemListReceipt.add(lblPaymentType.getText());
+			itemListReceipt.add(comboBox.getEditor().getItem().toString());
+			
+			itemListModel.removeAllElements();
+			lblTotalPrice.setText("Total Price =");
+			
 			//BackgroundMain.writeReceipt;
-		} else if (e.getSource() == btnCreditCard){
-			lblPaymentType.setText("Credit Card");
-		} else if (e.getSource() == btnDeleteItem){
+		}  else if (e.getSource() == btnDeleteItem){
 			deleteItem = new UIDeleteItem();
 			deleteItem.setVisible(true);
+		} else if (e.getSource() == btnMinus){
+			int ind = itemList.getSelectedIndex();
+			if (ind < 0){
+				System.out.print("No item is selected from the list yet");
+			} else {
+			itemListModel.remove(ind);
+			}		
+		} else if (e.getSource() == btnComboBoxPlus){
+			
+			Object item = comboBox.getEditor().getItem();
+			//if ()
+			boolean itemExists = false;
+			int in = comboBox.getItemCount();
+			for (int i = 0; i < comboBox.getItemCount(); i ++){
+				if (comboBox.getItemAt(i).equals(item)){
+					System.out.print("the item you are trying to add into the JComboBox already exists");
+					itemExists = true;
+					break;
+				} 
+			}
+			if (!itemExists){
+			comboBox.addItem(item);
+			}
+		} else if (e.getSource() == btnComboBoxMinus){
+			comboBox.removeItem(comboBox.getSelectedItem());
+			comboBox.getEditor().setItem("");
 		}
-		
 		
 		}
 	public static void setProperBtnLocation(JButton btn){
 		
-			double btnRow = buttonI/6;
-			int btnRowInt = 0;
-			if (btnRow > 5){
+			
+			int btnRow = (int)(Math.ceil(buttonI/6));
+			/*if (btnRow > 5){
 				btnRowInt = 6;
 			} else if (btnRow > 4){
 				btnRowInt = 5;
@@ -299,12 +362,12 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 				btnRowInt = 2;
 			} else if (btnRow > 0){
 				btnRowInt = 1;
-			}
+			}*/
 			
 			if (btnCollum > 5){
 				btnCollum = 0;
 			}
-			btn.setLocation(10+120*btnCollum, 10+120*btnRowInt);
+			btn.setLocation(10+120*btnCollum, 10+120*btnRow);
 		
 	}
 	}
