@@ -89,6 +89,8 @@ public class BackgroundMain2 {
 		for(File f : file.listFiles()){
 			if(f.getName().equals("path")){
 				s = true;
+				String[] u = Store.getitems(f.getPath(), 3);
+				path = u[1];
 			}
 		}
 		File file2 = new File(path + "/" + "path");
