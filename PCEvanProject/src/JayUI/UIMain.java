@@ -74,7 +74,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 					frame.setExtendedState(MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					
-					
+					BackgroundMain2.setPath();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
