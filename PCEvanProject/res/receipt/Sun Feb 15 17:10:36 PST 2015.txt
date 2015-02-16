@@ -1,0 +1,1 @@
+{"array":["Total Price = 117.550000","Cash"]}

@@ -62,7 +62,6 @@ public class BackgroundMain2 {
 		
 			File file = new File(path);
 			for(File f : file.listFiles()){
-				if(!f.isDirectory()){
 				String[] items = Store.getitems(f.getPath(), 4);
 				System.out.println(f.getPath().toString());
 				JSONObject obj = new JSONObject();
@@ -75,7 +74,7 @@ public class BackgroundMain2 {
 				answer.add(i.getName());
 			}
 		
-			}
+		
 		return answer;
 	}
 	
@@ -84,23 +83,21 @@ public class BackgroundMain2 {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 	
-		File filee = new File(path + "/" + "receipt"); 
-		if(!filee.exists())
-		filee.mkdir();
 		
-		File file = new File(path + "/" + "receipt" + "/" + date + ".txt" );	
+		
+		File file = new File(path + "/" + "receipt" + date + ".txt" );	
 	
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Store.newaddition(path + "/" + "receipt" + "/" + date + ".txt", stuff, stuff.length);
+		Store.newaddition(path + "/" + "receipt" + date + ".txt", stuff, stuff.length);
 		totalPrice = 0;
 	}
 	
 	public static void totalGSTPST(double PST , double GST){
-		File file = new File(path + "/" + "receipt" + "/" + "GST&PST.txt");
+		File file = new File(path + "/" + "receipts" + "/" + "GST&PST.txt");
 		
 		if(!file.exists()){
 			try {

@@ -80,7 +80,7 @@ public class UISetting extends JFrame implements ActionListener{
 		if (e.getSource() == btnSavePath){
 			BackgroundMain2.changeDirectory(textField.getText()) ;
 		} else if (e.getSource() == btnRevert){
-			BackgroundMain2.changeDirectory("res");
+			BackgroundMain2.path = "res";
 			textField.setText(BackgroundMain2.path);
 		}
 	}

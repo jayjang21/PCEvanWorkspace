@@ -27,6 +27,8 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
+import java.util.Arrays;
+
 public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 	static JPanel contentPane;
@@ -333,7 +335,14 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			itemListModel.removeAllElements();
 			lblTotalPrice.setText("Total Price =");
 			
-			//BackgroundMain.writeReceipt;
+			
+			 //First Step: convert ArrayList to an Object array.
+            Object[] objDays = itemListReceipt.toArray();
+           
+            //Second Step: convert Object array to String array
+            String[] strDays = Arrays.copyOf(objDays, objDays.length, String[].class);
+			
+			BackgroundMain2.writeReceipt( strDays);
 		}  else if (e.getSource() == btnDeleteItem){
 			deleteItem = new UIDeleteItem();
 			deleteItem.setVisible(true);

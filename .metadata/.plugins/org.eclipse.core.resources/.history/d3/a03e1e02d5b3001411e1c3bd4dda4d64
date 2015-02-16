@@ -62,7 +62,6 @@ public class BackgroundMain2 {
 		
 			File file = new File(path);
 			for(File f : file.listFiles()){
-				if(!f.isDirectory()){
 				String[] items = Store.getitems(f.getPath(), 4);
 				System.out.println(f.getPath().toString());
 				JSONObject obj = new JSONObject();
@@ -75,7 +74,7 @@ public class BackgroundMain2 {
 				answer.add(i.getName());
 			}
 		
-			}
+		
 		return answer;
 	}
 	
