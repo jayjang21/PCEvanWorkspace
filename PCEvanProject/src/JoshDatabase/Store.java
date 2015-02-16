@@ -96,7 +96,7 @@ public class Store
 			boolean success = false;
 			try{
 				 
-	    		File file = new File(filename);
+	    		File file = new File(filename+".txt");
 	    		if(file.delete()){
 	    			System.out.println(file.getName() + " is deleted!");
 	    			success = true;

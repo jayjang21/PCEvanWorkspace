@@ -277,14 +277,31 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		// TODO Auto-generated method stub
 		System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
 		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-			//itemList.remove(itemList.getSelectedIndex());
 			int ind = itemList.getSelectedIndex();
-			if (ind < 0){
-				System.out.print("No item is selected from the list yet");
-			} else {
-			itemListModel.remove(ind);
-			}
-			//itemList.repaint();
+			
+
+				if (ind < 0){
+					System.out.print("No item is selected from the list yet");
+				} else {
+				
+				//if (itemList.getComponent(ind) instanceof double.class) {
+				//if(double.class.isAssignableFrom(itemList.getComponent(ind).getClass()))    
+					if(itemList.getModel().getElementAt(ind) instanceof String)
+					{
+			
+						System.out.print(BackgroundMain2.getPrice(itemListModel.getElementAt(ind).toString()));
+						BackgroundMain2.totalPrice -= BackgroundMain2.getPrice(itemListModel.getElementAt(ind).toString());
+						itemListModel.remove(ind);
+						itemListModel.remove(ind);
+
+					} else {
+						System.out.print("Please select an item to delete from the itemList");
+
+					}
+				}
+			
+			
+				lblTotalPrice.setText(String.format("Total Price = %f", BackgroundMain2.totalPrice));
 		}
 	}
 
@@ -302,10 +319,14 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			System.out.print("test");
 			double price = BackgroundMain2.getPrice(btn.getText());
 			//Need the information
-			String buttonText = String.format("%s = %f", btn.getText(), price);
-			itemListModel.addElement(buttonText);
+			//String priceStr = String.format("%f", price);
 			
+			itemListModel.addElement(btn.getText());
+			itemListModel.addElement(price);
+		
+
 			
+			BackgroundMain2.totalPrice += price;
 			lblTotalPrice.setText(String.format("Total Price = %f", BackgroundMain2.getTotalPrice()));
 //lblTotalPrice.setText(String.format("%f", BackgroundMain2.getTotalPrice()));
 		}  
@@ -326,9 +347,10 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 		}
 		else if (e.getSource() == btnSaveReceipt){
-			String[] string;
-			for (int i=0; i >= itemList.getComponentCount(); i ++){
-				itemListReceipt.add(itemList.getComponent(i).toString());
+			String string = "0";
+			itemListReceipt.add(string);
+			for (int i=0; i >= itemListModel.getSize(); i ++){
+				itemListReceipt.add(itemListModel.getElementAt(i).toString());
 			}
 			itemListReceipt.add(lblTotalPrice.getText());
 			itemListReceipt.add(comboBox.getEditor().getItem().toString());
@@ -343,17 +365,38 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
             //Second Step: convert Object array to String array
             String[] strDays = Arrays.copyOf(objDays, objDays.length, String[].class);
 			
-			BackgroundMain2.writeReceipt( strDays);
-		}  else if (e.getSource() == btnDeleteItem){
+			BackgroundMain2.writeReceipt(strDays);
+		}  else if (e.getSource() == btnDeleteItem){//
+			
 			deleteItem = new UIDeleteItem();
 			deleteItem.setVisible(true);
 		} else if (e.getSource() == btnMinus){
+			
 			int ind = itemList.getSelectedIndex();
+			
+
 			if (ind < 0){
 				System.out.print("No item is selected from the list yet");
 			} else {
-			itemListModel.remove(ind);
-			}		
+				
+				//if (itemList.getComponent(ind) instanceof double.class) {
+				//if(double.class.isAssignableFrom(itemList.getComponent(ind).getClass()))    
+				if(itemList.getModel().getElementAt(ind) instanceof String)
+				{
+			
+					System.out.print(BackgroundMain2.getPrice(itemListModel.getElementAt(ind).toString()));
+					BackgroundMain2.totalPrice -= BackgroundMain2.getPrice(itemListModel.getElementAt(ind).toString());
+					itemListModel.remove(ind);
+					itemListModel.remove(ind);
+
+				} else {
+					System.out.print("Please select an item to delete from the itemList");
+
+				}
+			}
+			
+			
+			lblTotalPrice.setText(String.format("Total Price = %f", BackgroundMain2.totalPrice));
 		} else if (e.getSource() == btnComboBoxPlus){
 			
 			Object item = comboBox.getEditor().getItem();
@@ -375,6 +418,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			comboBox.getEditor().setItem("");
 		} else if (e.getSource() == btnClear){
 			itemListModel.removeAllElements();
+	
+			BackgroundMain2.totalPrice = 0;
 			lblTotalPrice.setText("Total Price =");
 		} else if (e.getSource() == btnSetting){
 			setting = new UISetting();

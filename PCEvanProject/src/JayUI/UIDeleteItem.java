@@ -1,6 +1,7 @@
 package JayUI;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import NolanBackground.BackgroundMain2;
 
 public class UIDeleteItem extends JFrame implements ActionListener{
 
@@ -73,12 +76,22 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 			
 			
 			int i =0;
+			boolean itemExistsInList = false;
+			String ch = textField.getText();
+
+			for (int in = 0; in < UIMain.itemListModel.getSize(); in ++){
+				if (ch.equals(UIMain.itemListModel.getElementAt(in).toString())){
+					itemExistsInList = true;
+					break;
+				}
+			}
+			if (!itemExistsInList){
 			for (JButton btn : UIMain.button){
-				String ch = textField.getText();
 				if ( btn.getText().equals(textField.getText()) ){
 					btn.setVisible(false);
 					UIMain.scrollContentPane.remove(i);
 					UIMain.button.remove(i);
+					BackgroundMain2.delete(textField.getText());
 					
 					//DataBaseMain.removeItem(btn.getText)
 					UIMain.btnCollum = 0;
@@ -112,6 +125,9 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 						System.out.print("the name you are searching to delete does not exit");
 					}
 				i++;
+			}
+			} else {
+				System.out.print("the item you are trying to delete is in the itemLists that the customer is trying to buy. (please save the reciept or delete the item from the itemLists first");
 			}
 			//Nolan delete Item
 			textField.setText("");

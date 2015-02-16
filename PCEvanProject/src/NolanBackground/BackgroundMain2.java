@@ -23,7 +23,7 @@ public class BackgroundMain2 {
 	
 	public static double getPrice(String name){
 		Items i = getItem(name);
-		totalPrice += i.getPrice();
+		//totalPrice += i.getPrice();
 		return i.getPrice();
 	}
 	
@@ -178,6 +178,9 @@ public class BackgroundMain2 {
 		}
 	}
 	
+	public static void delete(String name){
+		Store.deletefile(path + "/" + name);
+	}
 	/*
 	
 	public static void main(String[] args){
