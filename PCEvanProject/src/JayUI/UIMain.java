@@ -132,7 +132,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 		initItemNames = BackgroundMain2.getItems();
 		//String[] initItemNames = {"SkateGuard", "ChestGuard", "h", "k", "ie", "fjdkfj", "skdjfds","dkdk", "w", "q", "dd", "rrr", "wl", "wdkfj", "dkfjw", "r", "ekew", "widkfj", "qkqk", "dddd", "qqqqq", "dkdjwl", "wowowo", "ekd", "djflwkd", "wlwlwl", "dlfwkdj", "wkxkk", "qpqp", "dkfjw", "xkxk", "djwl"};
-		
+		if (!initItemNames.isEmpty()){
 		for (int i = initItemNames.size(); i > 0; i --){
 			JButton btn = new JButton(String.format("%s", initItemNames.get(i - 1)));
 			btn.setSize(new Dimension(100,100));
@@ -156,8 +156,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		
 		scrollContentPane.setPreferredSize(new Dimension(730,y+120));
 		scrollContentPane.setSize(730,y+120);
-
-
+		}
+		
+		
 		scrollPane.repaint();
 		
 		/*for (String s : initItemNames){
