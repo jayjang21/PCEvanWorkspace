@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -25,8 +26,9 @@ public class Store
 		c[0] = "Apple";
 		c[1] = "10";
 		c[2] = "abc1234";
-		delete("Items.json","Apple");
-		newaddition("swagger.json",c,3);
+		//delete("Items.json","Apple");
+		//newaddition("swagger.json",c);
+		newReceipt("blah",c);
 		readablesales("sales1.sales",c,3);
 		}
 		
@@ -165,8 +167,9 @@ public class Store
 			
     		
 		}
-		public static void newaddition(String file, String additions[], int additionsize)
+		public static void newaddition(String file, String additions[])
     	{
+			int additionsize = Array.getLength(additions);
     		JSONObject obj = new JSONObject();
     		JSONArray items = new JSONArray();
     		String type = "array";
@@ -203,6 +206,34 @@ public class Store
         		writer.flush();
         		writer.close();
         		System.out.println("size of array after addition = "+filesize(file));
+        	}   
+        	catch (IOException e) 
+        	{
+        	   e.printStackTrace();
+        	}
+    	}
+		public static void newReceipt(String file, String additions[])
+    	{
+			int additionsize = Array.getLength(additions);
+    		JSONObject obj = new JSONObject();
+    		JSONArray items = new JSONArray();
+    		String type = "array";
+    		String a[] = new String[additionsize];
+    		File f = new File(file);
+    		for(int i = 0; i < additionsize; i++)
+    		{
+    		
+    			items.add(additions[i]);
+    			
+    		}
+    		obj.put(type, items);
+    		
+    		try 
+        	{
+        		FileWriter writer = new FileWriter(file);
+        		writer.write(obj.toJSONString());
+        		writer.flush();
+        		writer.close();
         	}   
         	catch (IOException e) 
         	{

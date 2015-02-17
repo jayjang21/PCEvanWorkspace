@@ -228,7 +228,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnSetting.setLocation(1205, 15);
 		contentPane.add(btnSetting, null);
 		
-		lblTotalPrice = new JLabel("Total Price = ");
+		lblTotalPrice = new JLabel("Total Price = $");
 		lblTotalPrice.setBounds(40, 530, 200, 16);
 		contentPane.add(lblTotalPrice);
 		
@@ -238,7 +238,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		comboBox.setBounds(35, 560, 150, 27);
 		comboBox.setEditable(true);
 		comboBox.addItem("Cash");
-		comboBox.addItem("Dbit Card");
+		comboBox.addItem("Debit Card");
 		comboBox.addItem("Master Card");
 		comboBox.addItem("Visa Card");
 
@@ -301,7 +301,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 				}
 			
 			
-				lblTotalPrice.setText(String.format("Total Price = %f", BackgroundMain2.totalPrice));
+				lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.totalPrice));
 		}
 	}
 
@@ -327,7 +327,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 			
 			BackgroundMain2.totalPrice += price;
-			lblTotalPrice.setText(String.format("Total Price = %f", BackgroundMain2.getTotalPrice()));
+			lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.getTotalPrice()));
 //lblTotalPrice.setText(String.format("%f", BackgroundMain2.getTotalPrice()));
 		}  
 		}
@@ -347,24 +347,29 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 		}
 		else if (e.getSource() == btnSaveReceipt){
-			String string = "0";
-			itemListReceipt.add(string);
-			for (int i=0; i >= itemListModel.getSize(); i ++){
-				itemListReceipt.add(itemListModel.getElementAt(i).toString());
+		
+			/*
+			 String a[] = new String[arraysize];
+			 for(int i = 0; i < arraysize; i++)
+			 {
+			 a[i] = string whatever;
+			 }
+			 */
+			for (int i=0; i < itemListModel.getSize(); i ++){
+				itemListReceipt.add(itemListModel.get(i).toString());
 			}
 			itemListReceipt.add(lblTotalPrice.getText());
 			itemListReceipt.add(comboBox.getEditor().getItem().toString());
 			
 			itemListModel.removeAllElements();
-			lblTotalPrice.setText("Total Price =");
+			lblTotalPrice.setText("Total Price = $");
 			
-			
+			System.out.print(itemListReceipt);
 			 //First Step: convert ArrayList to an Object array.
             Object[] objDays = itemListReceipt.toArray();
-           
             //Second Step: convert Object array to String array
             String[] strDays = Arrays.copyOf(objDays, objDays.length, String[].class);
-			
+            
 			BackgroundMain2.writeReceipt(strDays);
 		}  else if (e.getSource() == btnDeleteItem){//
 			
@@ -396,7 +401,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			}
 			
 			
-			lblTotalPrice.setText(String.format("Total Price = %f", BackgroundMain2.totalPrice));
+			lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.totalPrice));
 		} else if (e.getSource() == btnComboBoxPlus){
 			
 			Object item = comboBox.getEditor().getItem();
@@ -420,7 +425,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			itemListModel.removeAllElements();
 	
 			BackgroundMain2.totalPrice = 0;
-			lblTotalPrice.setText("Total Price =");
+			lblTotalPrice.setText("Total Price = $");
 		} else if (e.getSource() == btnSetting){
 			setting = new UISetting();
 			setting.setVisible(true);

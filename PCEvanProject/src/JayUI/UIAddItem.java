@@ -62,17 +62,17 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 		lblItemName.setLocation(65, 50);
 		contentPane.add(lblItemName, BorderLayout.NORTH);
 		
-		JLabel lblItemPrice = new JLabel("Item Price :");
+		JLabel lblItemPrice = new JLabel("Item Price :     $");
 		lblItemPrice.setSize(new Dimension(100, 50));
 		lblItemPrice.setLocation(65, 80);
 		contentPane.add(lblItemPrice, BorderLayout.NORTH);
 		
-		JLabel lblItemPST = new JLabel("Item PST :");
+		JLabel lblItemPST = new JLabel("Item PST :      %");
 		lblItemPST.setSize(new Dimension(100, 50));
 		lblItemPST.setLocation(65, 110);
 		contentPane.add(lblItemPST, BorderLayout.NORTH);
 		
-		JLabel lblItemGST = new JLabel("Item GST :");
+		JLabel lblItemGST = new JLabel("Item GST :      %");
 		lblItemGST.setSize(new Dimension(100, 50));
 		lblItemGST.setLocation(65, 140);
 		contentPane.add(lblItemGST, BorderLayout.NORTH);
@@ -131,14 +131,18 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 		if (e.getSource() == btnFinish){
 			System.out.print("btnFinish pressed");
 			boolean nameExists = false;
-			for (JButton bt : UIMain.button){
-				if (bt.getText().equals(tfItemName.getText())){
-					System.out.print("This name that you are trying to generate already exists");
-					nameExists = true;
-					break;
+			if (!UIMain.button.isEmpty()){
+				for (JButton bt : UIMain.button){
+					if (bt.getText().equals(tfItemName.getText())){
+						System.out.print("This name that you are trying to generate already exists");
+						nameExists = true;
+						break;
+					}
 				}
 			}
 			if (!nameExists){
+				if (tfItemName.getText() instanceof String){
+					
 			JButton btn = new JButton(String.format("%s", tfItemName.getText()));
 			btn.setSize(new Dimension(100,100));
 			UIMain.setProperBtnLocation(btn);
@@ -166,6 +170,9 @@ public class UIAddItem extends JFrame implements ActionListener, KeyListener {
 			
 			//focus the textField.
 			tfItemName.requestFocus();
+				} else {
+					System.out.print("All inputs need to be in the proper format");
+				}
 			}
 		}
 	}

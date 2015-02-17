@@ -18,4 +18,5 @@
 <fullyQualifiedTypeName name="java.awt.Component"/>
 <fullyQualifiedTypeName name="JayUI.UIMain"/>
 <fullyQualifiedTypeName name="NolanBackground.BackgroundMain2"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 </qualifiedTypeNameHistroy>
