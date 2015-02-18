@@ -1,0 +1,1 @@
+{"array":["fwa","5.0","Total Price = $5.000000","Cash"]}

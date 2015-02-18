@@ -20,6 +20,46 @@ public class BackgroundMain2 {
 	
 	
 	public static void go(){
+		File file = new File("res" + "/" + "path.txt");
+		boolean has = true;
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+				has = false;
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	if(has){
+		JSONObject obj = new JSONObject();
+		JSONParser parser = new JSONParser();
+		try {
+			FileReader reader = new FileReader(file);
+			try {
+				obj = (JSONObject) parser.parse(reader);
+				if(obj.containsKey("path"))
+					path = (String) obj.get("path");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}else{
+		JSONObject obj = new JSONObject();
+		obj.put("path", "res");
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(obj.toJSONString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
 		
 	}
 
@@ -70,7 +110,8 @@ public class BackgroundMain2 {
 		
 			File file = new File("res");
 			for(File f : file.listFiles()){
-				if(!f.isDirectory()){
+				
+				if(!f.isDirectory() &! f.getName().equals("path.txt")){
 				String[] items = Store.getitems(f.getPath(), 4);
 				System.out.println(f.getPath().toString());
 				JSONObject obj = new JSONObject();
@@ -84,6 +125,9 @@ public class BackgroundMain2 {
 			}
 		
 			}
+			
+			go();
+			
 		return answer;
 	}
 	
@@ -92,6 +136,14 @@ public class BackgroundMain2 {
 		for(String s : stuff){
 			System.out.println(s);
 		}
+		String[] items = new String[(stuff.length - 2) / 2];
+		int x = 0;
+		for(int i = 0; i < stuff.length - 2 ; i += 2){
+			
+			items[x] = stuff[i];
+			x += 1;
+		}
+		calculateGSTPST(items);
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -114,6 +166,18 @@ public class BackgroundMain2 {
 		
 	}
 	
+	public static void calculateGSTPST(String[] items){
+		double PST = 0;
+		double GST = 0;
+		for(String i : items){
+		Items item = getItem(i);
+		double base = item.getPrice() / (item.getPST() + item.getGST() + 1);
+		PST = PST + (base * item.getPST());
+		GST = GST + (base * item.getGST());
+		}
+		totalGSTPST(PST , GST);
+	}
+	
 	public static void totalGSTPST(double PST , double GST){
 		File file = new File(path + "/" + "receipt" + "/" + "GST&PST.txt");
 		
@@ -125,33 +189,45 @@ public class BackgroundMain2 {
 			}
 		}
 		
+		
+		
 		JSONObject old = new JSONObject();
 		
 		JSONParser parser = new JSONParser();
-		
+		System.out.println(file.getPath());
 		try {
-			old = (JSONObject) parser.parse(file.toString());
+			try {
+				FileReader reader = new FileReader(file.toString());
+				old = (JSONObject) parser.parse(reader);
+			} catch (IOException e) {
+				System.out.println("Failed to read - IOException");
+				e.printStackTrace();
+			}
 		} catch (ParseException e) {
-			System.out.println("Failed to print GST and PST");
+			System.out.println("Failed to read GST and PST");
 		}
+		
+		
 		double pst = 0;
-		if(old.get("PST") != null)
-		 pst = Double.parseDouble((String) old.get("PST"));
+		if(old.get("PST ") != null)
+		 pst = Double.parseDouble((String) old.get("PST ").toString().replace("$", ""));
 		double gst = 0;
-		if(old.get("GST") != null)
-		gst = Double.parseDouble((String) old.get("GST"));
+		if(old.get("GST ") != null)
+		gst = Double.parseDouble((String) old.get("GST ").toString().replace("$", ""));
 		
 		pst = pst + PST;
 		gst = gst + GST;
 		
 		JSONObject obj = new JSONObject();
 		
-		obj.put("PST: ", "$" + pst);
-		obj.put("GST: ", "$" + gst);
+		obj.put("PST ", "$" + pst);
+		obj.put("GST ", "$" + gst);
+		
 		
 		try {
-			FileWriter writer = new FileWriter(file.toString());
+			FileWriter writer = new FileWriter(file.getPath());
 			writer.write(obj.toJSONString());
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -196,6 +272,9 @@ public class BackgroundMain2 {
 			
 			e.printStackTrace();
 		}
+		
+		
+		
 	}
 	
 	public static void checkPath(){
@@ -251,17 +330,19 @@ public class BackgroundMain2 {
 	
 	public static void changeDirectory(String dir){
 		path = dir;
-		File file = new File(dir);
-		boolean any = false;
-		for(File f : file.listFiles()){
-			if(f.isDirectory() && f.getName().equals("receipts")){
-				any = true;
-			}else{
-				
-			}
+		File file = new File("res" + "/" + "path.txt");
+		try {
+			FileWriter writer = new FileWriter("res/path.txt");
+			JSONObject obj = new JSONObject();
+			obj.put("path", dir);
+			writer.write(obj.toJSONString());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 			
 		}
-	}
+	
 	
 	public static void delete(String name){
 		Store.deletefile("res" + "/" + name);

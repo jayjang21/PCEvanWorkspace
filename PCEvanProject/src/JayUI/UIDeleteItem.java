@@ -89,7 +89,7 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 			for (JButton btn : UIMain.button){
 				if ( btn.getText().equals(textField.getText()) ){
 					btn.setVisible(false);
-					UIMain.scrollContentPane.remove(i);
+					UIMain.btnScrollContentPane.remove(i);
 					UIMain.button.remove(i);
 					BackgroundMain2.delete(textField.getText());
 					
@@ -104,7 +104,7 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 						//System.out.print(btn.getLocation());
 						//scrollContentPane.add(btn);
 						//scrollPane.getViewport().add(btn, null);
-						UIMain.scrollContentPane.add(btn);
+						UIMain.btnScrollContentPane.add(btn);
 
 						//scrollContentPane.revalidate();
 						//scrollPane.
@@ -115,11 +115,11 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 					
 					int y = UIMain.button.get(UIMain.buttonI-1).getLocation().y;
 					
-					UIMain.scrollContentPane.setPreferredSize(new Dimension(730,y+100+20));
-					UIMain.scrollContentPane.setSize(730,y+100+20);
+					UIMain.btnScrollContentPane.setPreferredSize(new Dimension(730,y+100+20));
+					UIMain.btnScrollContentPane.setSize(730,y+100+20);
 
 
-					UIMain.scrollPane.repaint();
+					UIMain.btnScrollPane.repaint();
 					break;
 				}else {
 						System.out.print("the name you are searching to delete does not exit");
@@ -127,7 +127,7 @@ public class UIDeleteItem extends JFrame implements ActionListener{
 				i++;
 			}
 			} else {
-				System.out.print("the item you are trying to delete is in the itemLists that the customer is trying to buy. (please save the reciept or delete the item from the itemLists first");
+				System.out.print("the item you are trying to delete is in the itemLists that the customer is trying to buy. (please save the reciept or delete the item from the itemLists first)");
 			}
 			//Nolan delete Item
 			textField.setText("");

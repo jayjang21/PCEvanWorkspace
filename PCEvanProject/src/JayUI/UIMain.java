@@ -32,10 +32,12 @@ import java.util.Arrays;
 public class UIMain extends JFrame implements KeyListener, ActionListener{
 
 	static JPanel contentPane;
-	static JPanel scrollContentPane;
+	static JPanel btnScrollContentPane;
 	static JList itemList;
+
+	//static JList itemList;
 	//static JList btnList;
-	static DefaultListModel btnListModel;
+	//static DefaultListModel btnListModel;
 	static DefaultListModel itemListModel;
 	static JButton button1;
 	static JButton button2;
@@ -50,7 +52,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static UISetting setting;
 	static UIMain frame;
 	
-	static JScrollPane scrollPane;
+	static JScrollPane btnScrollPane;
+	static JScrollPane itemScrollPane;
+
 	static int btnCollum = 0;
 	static JButton btnCreditCard;
 	static JButton btnSaveReceipt;
@@ -98,9 +102,21 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		
 		itemListModel = new DefaultListModel();
 		itemList = new JList(itemListModel);
-		itemList.setSize(new Dimension(200,500));
-		itemList.setLocation(10, 10);
+		itemList.setSize(new Dimension(0,0));
+		itemList.setLocation(10,10);
+		//itemList.setLayoutOrientation(itemList.HORIZONTAL_WRAP);
 		contentPane.add(itemList, BorderLayout.WEST);
+		
+		
+		itemScrollPane = new JScrollPane();
+		itemScrollPane.setBounds(10, 10, 200, 500);
+		itemScrollPane.getViewport().setLayout(null);
+		itemScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		itemScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		itemScrollPane.setViewportView(itemList);
+
+
+		contentPane.add(itemScrollPane, BorderLayout.WEST);
 		
 		/*btnListModel = new DefaultListModel();
 		btnList = new JList(itemListModel);
@@ -108,26 +124,26 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnList.setLocation(500, 50);
 		contentPane.add(btnList, BorderLayout.WEST);*/
 		
-		scrollContentPane = new JPanel();
+		btnScrollContentPane = new JPanel();
 		//scrollContentPane.setBounds(0, 50, 600, 550);
 		//scrollContentPane.setLocation(350, 50);
-		scrollContentPane.setLayout(null);
+		btnScrollContentPane.setLayout(null);
 		
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(280, 60, 750, 550);
+		btnScrollPane = new JScrollPane();
+		btnScrollPane.setBounds(280, 60, 750, 550);
 		//scrollPane.setLocation(350, 50);
-		scrollPane.getViewport().setLayout(null);
+		btnScrollPane.getViewport().setLayout(null);
 		//scrollPane.setPreferredSize(new Dimension(1000, 700));
 		//scrollPane.getViewport().setLayout(new ScrollPaneLayout());
 		//scrollPane.setLayout(new ScrollPaneLayout());
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		btnScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		btnScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		//scrollPane.
-		scrollPane.setViewportView(scrollContentPane);
+		btnScrollPane.setViewportView(btnScrollContentPane);
 
 
-		contentPane.add(scrollPane, BorderLayout.WEST);
+		contentPane.add(btnScrollPane, BorderLayout.WEST);
 		//scrollPane.setBounds(116, 133, 4, 4);
 
 		initItemNames = BackgroundMain2.getItems();
@@ -143,7 +159,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			//System.out.print(btn.getLocation());
 			//scrollContentPane.add(btn);
 			//scrollPane.getViewport().add(btn, null);
-			scrollContentPane.add(btn);
+			btnScrollContentPane.add(btn);
 
 			//scrollContentPane.revalidate();
 			//scrollPane.
@@ -154,12 +170,12 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		
 		int y = button.get(buttonI-1).getLocation().y;
 		
-		scrollContentPane.setPreferredSize(new Dimension(730,y+120));
-		scrollContentPane.setSize(730,y+120);
+		btnScrollContentPane.setPreferredSize(new Dimension(730,y+120));
+		btnScrollContentPane.setSize(730,y+120);
 		}
 		
 		
-		scrollPane.repaint();
+		btnScrollPane.repaint();
 		
 		/*for (String s : initItemNames){
 			JButton btn = new JButton(String.format("%s", s));
@@ -247,7 +263,6 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		
 		
 		itemList.addKeyListener(this);
-		
 		btnGenerator.addActionListener(this);
 		btnDeleteItem.addActionListener(this);
 		btnSaveReceipt.addActionListener(this);
@@ -293,6 +308,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 						BackgroundMain2.totalPrice -= BackgroundMain2.getPrice(itemListModel.getElementAt(ind).toString());
 						itemListModel.remove(ind);
 						itemListModel.remove(ind);
+						
+						setProperItemScrollPaneScroll();
 
 					} else {
 						System.out.print("Please select an item to delete from the itemList");
@@ -323,9 +340,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			
 			itemListModel.addElement(btn.getText());
 			itemListModel.addElement(price);
-		
-
 			
+			setProperItemScrollPaneScroll();
+	
 			BackgroundMain2.totalPrice += price;
 			lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.getTotalPrice()));
 //lblTotalPrice.setText(String.format("%f", BackgroundMain2.getTotalPrice()));
@@ -362,6 +379,9 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			itemListReceipt.add(comboBox.getEditor().getItem().toString());
 			
 			itemListModel.removeAllElements();
+			
+			setProperItemScrollPaneScroll();
+			
 			lblTotalPrice.setText("Total Price = $");
 			
 			System.out.print(itemListReceipt);
@@ -393,9 +413,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 					BackgroundMain2.totalPrice -= BackgroundMain2.getPrice(itemListModel.getElementAt(ind).toString());
 					itemListModel.remove(ind);
 					itemListModel.remove(ind);
+					
+					setProperItemScrollPaneScroll();
 
 				} else {
-					System.out.print("Please select an item to delete from the itemList");
+					System.out.print("Please select an item not the price from the itemList");
 
 				}
 			}
@@ -423,6 +445,12 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			comboBox.getEditor().setItem("");
 		} else if (e.getSource() == btnClear){
 			itemListModel.removeAllElements();
+			
+			int y = itemListModel.getSize();
+			
+			itemList.setPreferredSize(new Dimension(180,y*15+y*2));
+			//itemScrollPane.setPreferredSize(new Dimension(200,y*100));
+			itemList.setSize(180,y*15+y*3);
 	
 			BackgroundMain2.totalPrice = 0;
 			lblTotalPrice.setText("Total Price = $");
@@ -456,8 +484,13 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 			btn.setLocation(10+120*btnCollum, 10+120*btnRow);
 		
 	}
-	}
-		
 	
+	public static void setProperItemScrollPaneScroll(){
+		int y = itemListModel.getSize();
+		
+		itemList.setPreferredSize(new Dimension(180,y*15+y*2));
+		itemList.setSize(180,y*15+y*3);
+	}
+	}
 	
 	
