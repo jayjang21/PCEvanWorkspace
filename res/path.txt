@@ -1,1 +1,1 @@
-{"path":"\/Users\/Nolan\/Desktop\/untitled folder"}
+{"path":"res"}

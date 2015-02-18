@@ -1,1 +1,0 @@
-{"array":["0","Total Price = $30.000000","Master Card"]}

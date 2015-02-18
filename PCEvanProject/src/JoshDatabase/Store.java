@@ -61,12 +61,12 @@ public class Store
 			
 			return i;				
 		}
-		public static String[] getitems(String file, int additionsize)
+		public static String[] getitems(String file)
 		{
-			
+				
 				int i = 0;
 				String type = "array";
-				String a[] = new String[filesize(file)+4];
+				String a[] = new String[9999];
 				JSONParser parser = new JSONParser();
 					try 
 					{
@@ -120,7 +120,7 @@ public class Store
 			JSONObject obj = new JSONObject();
     		JSONArray items = new JSONArray();
     		String a[] = new String[filesize(file)];
-    		a = getitems(file,1);
+    		a = getitems(file);
     		for(int i = 0; i < filesize(file); i++)
     		{	
     			if(a[i] == name)
@@ -177,7 +177,7 @@ public class Store
     		File f = new File(file);
     		if(f.exists() && !f.isDirectory()) 
     		{ 
-    			a = getitems(file,additionsize); 
+    			a = getitems(file); 
     		}
     		
     		

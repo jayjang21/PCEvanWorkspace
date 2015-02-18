@@ -391,6 +391,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
             String[] strDays = Arrays.copyOf(objDays, objDays.length, String[].class);
             
 			BackgroundMain2.writeReceipt(strDays);
+			
+			itemListReceipt.clear();
 		}  else if (e.getSource() == btnDeleteItem){//
 			
 			deleteItem = new UIDeleteItem();

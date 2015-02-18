@@ -92,7 +92,7 @@ public class BackgroundMain2 {
 	
 	public static Items getItem(String name){
 	
-		String[] string =  Store.getitems("res" + "/" + name + ".txt", 3);
+		String[] string =  Store.getitems("res" + "/" + name + ".txt");
 		JSONObject obj = new JSONObject();
 		obj.put("name", string[1]);
 		obj.put("price", string[2]);
@@ -111,8 +111,8 @@ public class BackgroundMain2 {
 			File file = new File("res");
 			for(File f : file.listFiles()){
 				
-				if(!f.isDirectory() &! f.getName().equals("path.txt")){
-				String[] items = Store.getitems(f.getPath(), 4);
+				if(!f.isDirectory() &! f.getName().equals("path.txt") &! f.getName().equals(".DS_Store")){
+				String[] items = Store.getitems(f.getPath());
 				System.out.println(f.getPath().toString());
 				JSONObject obj = new JSONObject();
 				obj.put("name", items[1]);
