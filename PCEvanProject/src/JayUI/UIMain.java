@@ -16,20 +16,24 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JList;
 import javax.swing.JButton;
 
 import JoshDatabase.*;
 import NolanBackground.*;
+
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
 import java.util.Arrays;
 
-public class UIMain extends JFrame implements KeyListener, ActionListener{
+public class UIMain extends JFrame implements KeyListener, ActionListener, DocumentListener{
 
 	static JPanel contentPane;
 	static JPanel btnScrollContentPane;
@@ -50,6 +54,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static UIAddItem addItem;
 	static UIDeleteItem deleteItem;
 	static UISetting setting;
+	static UIMultiplyItem multiplyItem;
 	static UIMain frame;
 	
 	static JScrollPane btnScrollPane;
@@ -67,6 +72,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 	static JComboBox comboBox;
 	static JButton btnClear;
 	static JButton btnSetting;
+	static JButton btnMultiply;
 	
 	
 	/**
@@ -221,12 +227,17 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		
 		btnMinus = new JButton("-");
 		btnMinus.setSize(new Dimension(40,40));
-		btnMinus.setLocation(215, 15);
+		btnMinus.setLocation(215, 55);
 		contentPane.add(btnMinus, null);
+		
+		btnMultiply = new JButton("x");
+		btnMultiply.setSize(new Dimension(40,40));
+		btnMultiply.setLocation(215, 15);
+		contentPane.add(btnMultiply, null);
 		
 		btnClear = new JButton("Clear");
 		btnClear.setSize(new Dimension(60,40));
-		btnClear.setLocation(215, 55);
+		btnClear.setLocation(215, 95);
 		contentPane.add(btnClear, null);
 		
 		btnComboBoxPlus = new JButton("+");
@@ -248,6 +259,12 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		lblTotalPrice.setBounds(40, 530, 200, 16);
 		contentPane.add(lblTotalPrice);
 		
+		/*tfItemMultiply = new JTextField();
+		tfItemMultiply.setBounds(215, 30, 100, 20);
+		contentPane.add(tfItemMultiply, BorderLayout.CENTER);
+		tfItemMultiply.setColumns(10);*/
+		
+		
 		
 		
 		comboBox = new JComboBox();
@@ -267,10 +284,12 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		btnDeleteItem.addActionListener(this);
 		btnSaveReceipt.addActionListener(this);
 		btnMinus.addActionListener(this);
+		btnMultiply.addActionListener(this);
 		btnComboBoxPlus.addActionListener(this);
 		btnComboBoxMinus.addActionListener(this);
 		btnClear.addActionListener(this);
 		btnSetting.addActionListener(this);
+		
 
 		setFocusable(true);
 
@@ -459,8 +478,10 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		} else if (e.getSource() == btnSetting){
 			setting = new UISetting();
 			setting.setVisible(true);
+		} else if (e.getSource() == btnMultiply){
+			multiplyItem = new UIMultiplyItem();
+			multiplyItem.setVisible(true);
 		}
-		
 		}
 	public static void setProperBtnLocation(JButton btn){
 		
@@ -492,6 +513,24 @@ public class UIMain extends JFrame implements KeyListener, ActionListener{
 		
 		itemList.setPreferredSize(new Dimension(180,y*15+y*2));
 		itemList.setSize(180,y*15+y*3);
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	}
 	

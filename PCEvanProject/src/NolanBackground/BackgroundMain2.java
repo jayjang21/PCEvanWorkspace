@@ -110,8 +110,8 @@ public class BackgroundMain2 {
 		
 			File file = new File("res");
 			for(File f : file.listFiles()){
-				
-				if(!f.isDirectory() &! f.getName().equals("path.txt") &! f.getName().equals(".DS_Store")){
+				// if the end of the file isn't something that we know don't load it
+				if(!f.isDirectory() &! f.getName().equals("path.txt") &! f.getName().equals(".DS_Store") &! f.getName().equals("._.DS_Store")){
 				String[] items = Store.getitems(f.getPath());
 				System.out.println(f.getPath().toString());
 				JSONObject obj = new JSONObject();
