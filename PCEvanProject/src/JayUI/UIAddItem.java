@@ -3,6 +3,8 @@ package JayUI;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 
 import java.awt.Dimension;
 
@@ -21,6 +23,9 @@ import java.awt.event.KeyListener;
 
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 
 import javax.swing.JFrame;
 
@@ -53,6 +58,11 @@ static JTextField tfItemGST;
 static JTextField tfItemPrice;
 
 static JTextField tfItemName;
+static JTextField tfItemSale;
+
+static JComboBox comboBox;
+
+//static JTextField tfItemDiscount;
 
 
 
@@ -116,41 +126,61 @@ JLabel lblItemName = new JLabel("Item Name :");
 
 lblItemName.setSize(new Dimension(100, 50));
 
-lblItemName.setLocation(65, 50);
+lblItemName.setLocation(60, 50);
 
 contentPane.add(lblItemName, BorderLayout.NORTH);
 
 
-JLabel lblItemPrice = new JLabel("Item Price :     $");
+JLabel lblItemPrice = new JLabel("Item Price :        $");
 
-lblItemPrice.setSize(new Dimension(100, 50));
+lblItemPrice.setSize(new Dimension(150, 50));
 
-lblItemPrice.setLocation(65, 80);
+lblItemPrice.setLocation(60, 80);
 
 contentPane.add(lblItemPrice, BorderLayout.NORTH);
 
 
-JLabel lblItemPST = new JLabel("Item PST :      %");
+JLabel lblItemPST = new JLabel("Item PST :         %");
 
-lblItemPST.setSize(new Dimension(100, 50));
+lblItemPST.setSize(new Dimension(150, 50));
 
-lblItemPST.setLocation(65, 110);
+lblItemPST.setLocation(60, 110);
 
 contentPane.add(lblItemPST, BorderLayout.NORTH);
 
 
-JLabel lblItemGST = new JLabel("Item GST :      %");
+JLabel lblItemGST = new JLabel("Item GST :         %");
 
-lblItemGST.setSize(new Dimension(100, 50));
+lblItemGST.setSize(new Dimension(150, 50));
 
-lblItemGST.setLocation(65, 140);
+lblItemGST.setLocation(60, 140);
 
 contentPane.add(lblItemGST, BorderLayout.NORTH);
 
 
+
+JLabel lblItemSale = new JLabel("Item Sale :         %");
+
+lblItemSale.setSize(new Dimension(150, 50));
+
+lblItemSale.setLocation(60, 170);
+
+contentPane.add(lblItemSale, BorderLayout.NORTH);
+
+
+/*JLabel lblItemDiscount = new JLabel("Item Discount : %");
+
+lblItemDiscount.setSize(new Dimension(150, 50));
+
+lblItemDiscount.setLocation(60, 170);
+
+contentPane.add(lblItemDiscount, BorderLayout.NORTH);*/
+
+
+
 tfItemName = new JTextField();
 
-tfItemName.setBounds(164, 62, 134, 28);
+tfItemName.setBounds(170, 62, 134, 28);
 
 contentPane.add(tfItemName);
 
@@ -159,29 +189,47 @@ tfItemName.setColumns(10);
 
 tfItemPrice = new JTextField();
 
-tfItemPrice.setBounds(164, 92, 134, 28);
+tfItemPrice.setBounds(170, 92, 134, 28);
 
 contentPane.add(tfItemPrice);
 
 tfItemPrice.setColumns(10);
 
 
-tfItemPST = new JTextField();
+tfItemPST = new JTextField("7");
 
-tfItemPST.setBounds(164, 122, 134, 28);
+tfItemPST.setBounds(170, 122, 134, 28);
 
 contentPane.add(tfItemPST);
 
 tfItemPST.setColumns(10);
 
 
-tfItemGST = new JTextField();
+tfItemGST = new JTextField("5");
 
-tfItemGST.setBounds(164, 152, 134, 28);
+tfItemGST.setBounds(170, 152, 134, 28);
 
 contentPane.add(tfItemGST);
 
 tfItemGST.setColumns(10);
+
+
+tfItemSale = new JTextField("");
+
+tfItemSale.setBounds(170, 182, 134, 28);
+
+contentPane.add(tfItemSale);
+
+tfItemSale.setColumns(10);
+
+/*tfItemDiscount = new JTextField();
+
+tfItemDiscount.setBounds(170, 182, 134, 28);
+
+contentPane.add(tfItemDiscount);
+
+tfItemDiscount.setColumns(10);*/
+
 
 
 btnFinish = new JButton("Add Item");
@@ -193,9 +241,35 @@ btnFinish.setLocation(330, 210);
 contentPane.add(btnFinish);
 
 
+comboBox = new JComboBox();
+comboBox.setBounds(170, 212, 100, 28);
+comboBox.setEditable(true);
+
+comboBox.addItem("");
+comboBox.addItem("Red");
+comboBox.addItem("Orange");
+comboBox.addItem("Yellow");
+comboBox.addItem("Green");
+comboBox.addItem("Blue");
+comboBox.addItem("Purple");
+
+
+contentPane.add(comboBox);
+
+
+
 btnFinish.addActionListener(this);
 
+tfItemName.addKeyListener(this);
+tfItemPrice.addKeyListener(this);
+tfItemGST.addKeyListener(this);
+tfItemPST.addKeyListener(this);
 
+
+
+
+
+setFocusable(true);
 }
 
 
@@ -205,7 +279,7 @@ btnFinish.addActionListener(this);
 public void keyTyped(KeyEvent e) {
 
 // TODO Auto-generated method stub
-
+	
 
 }
 
@@ -216,7 +290,9 @@ public void keyTyped(KeyEvent e) {
 public void keyPressed(KeyEvent e) {
 
 // TODO Auto-generated method stub
-
+	if (e.getKeyCode() == KeyEvent.VK_ENTER){
+		generateButton();
+	}
 
 }
 
@@ -242,128 +318,165 @@ public void actionPerformed(ActionEvent e) {
 
 if (e.getSource() == btnFinish){
 
-System.out.print("btnFinish pressed");
-
-boolean nameExists = false;
-
-if (!UIMain.button.isEmpty()){
-
-for (JButton bt : UIMain.button){
-
-if (bt.getText().equals(tfItemName.getText())){
-
-System.out.print("This name that you are trying to generate already exists");
-
-nameExists = true;
-
-break;
+	generateButton();
 
 }
 
 }
 
+public void generateButton(){
+	System.out.print("btnFinish pressed");
+
+	boolean nameExists = false;
+
+	if (!UIMain.button.isEmpty()){
+
+	for (JButton bt : UIMain.button){
+
+	if (bt.getText().equals(tfItemName.getText())){
+
+	System.out.print("This name that you are trying to generate already exists");
+
+	nameExists = true;
+
+	break;
+
+	}
+
+	}
+
+	}
+
+	if (!nameExists){
+
+	if (tfItemName.getText() instanceof String){
+
+
+	JButton btn = new JButton(String.format("%s", tfItemName.getText()));
+
+	btn.setSize(new Dimension(100,100));
+	
+	btn.setBackground(getBtnColor(comboBox.getEditor().getItem().toString()));
+	btn.setOpaque(true);
+	UIMain.setProperBtnLocation(btn);
+
+	btn.addActionListener(UIMain.frame);
+
+	UIMain.btnScrollContentPane.add(btn, BorderLayout.EAST);
+
+	UIMain.button.add(btn);
+
+
+	UIMain.btnCollum ++;
+
+	UIMain.buttonI ++;
+
+
+	int i = btn.getLocation().y;
+
+	UIMain.btnScrollContentPane.setPreferredSize(new Dimension(730,i+100+20));
+
+	UIMain.btnScrollContentPane.setSize(730,i+100+20);
+
+
+	double itemPrice;
+
+	double itemGST;
+
+	double itemPST;
+	double itemSale;
+
+
+	if (tfItemPrice.getText().equals("")){
+
+	itemPrice = 0.0;
+
+	} else {
+
+	itemPrice = Double.parseDouble(tfItemPrice.getText());
+
+	}
+
+
+	if (tfItemGST.getText().equals("")){
+
+	itemGST = 0.0;
+
+	} else {
+
+	itemGST = Double.parseDouble(tfItemPST.getText());
+
+	}
+
+
+	if (tfItemPST.getText().equals("")){
+
+	itemPST = 0.0;
+
+	} else {
+
+	itemPST = Double.parseDouble(tfItemGST.getText());
+
+	}
+
+	
+	if (tfItemSale.getText().equals("")){
+
+		itemSale = 0.0;
+
+		} else {
+
+		itemSale = Double.parseDouble(tfItemSale.getText());
+
+		}
+
+	
+	String itemColor = comboBox.getEditor().getItem().toString();
+
+
+	BackgroundMain2.newItem(new Items(tfItemName.getText(),itemPrice,itemPST,itemGST,itemSale,itemColor));
+
+
+
+	UIMain.btnScrollPane.repaint();
+
+	tfItemName.setText("");
+
+	tfItemPrice.setText("");
+
+
+	//focus the textField.
+
+	tfItemName.requestFocus();
+
+	} else {
+
+	System.out.print("In order to create an itemButton, at least the name is required");
+
+	}
+
+	}
 }
 
-if (!nameExists){
+public static Color getBtnColor(String color){
+	Color returnColor = null;
+	//Color INDIGO = new Color(75,0,130);
+	Color PURPLE = new Color(138, 43, 226);
 
-if (tfItemName.getText() instanceof String){
-
-
-JButton btn = new JButton(String.format("%s", tfItemName.getText()));
-
-btn.setSize(new Dimension(100,100));
-
-UIMain.setProperBtnLocation(btn);
-
-btn.addActionListener(UIMain.frame);
-
-UIMain.btnScrollContentPane.add(btn, BorderLayout.EAST);
-
-UIMain.button.add(btn);
-
-
-UIMain.btnCollum ++;
-
-UIMain.buttonI ++;
-
-
-int i = btn.getLocation().y;
-
-UIMain.btnScrollContentPane.setPreferredSize(new Dimension(730,i+100+20));
-
-UIMain.btnScrollContentPane.setSize(730,i+100+20);
-
-
-double itemPrice;
-
-double itemGST;
-
-double itemPST;
-
-
-if (tfItemPrice.getText().equals("")){
-
-itemPrice = 0.0;
-
-} else {
-
-itemPrice = Double.parseDouble(tfItemPrice.getText());
-
+	if (color.equals("Red")){
+		returnColor = Color.RED;
+	} else if (color.equals("Orange")){
+		returnColor = Color.ORANGE;
+	} else if (color.equals("Yellow")){
+		returnColor = Color.YELLOW;
+	} else if (color.equals("Green")){
+		returnColor = Color.GREEN;
+	} else if (color.equals("Blue")){
+		returnColor = Color.BLUE;
+	} else if (color.equals("Purple")){
+		returnColor = PURPLE;
+	}
+	return returnColor;
 }
-
-
-if (tfItemGST.getText().equals("")){
-
-itemGST = 0.0;
-
-} else {
-
-itemGST = Double.parseDouble(tfItemPST.getText());
-
-}
-
-
-if (tfItemPST.getText().equals("")){
-
-itemPST = 0.0;
-
-} else {
-
-itemPST = Double.parseDouble(tfItemGST.getText());
-
-}
-
-
-
-
-
-
-BackgroundMain2.newItem(new Items(tfItemName.getText(),itemPrice,itemPST,itemGST));
-
-
-
-UIMain.btnScrollPane.repaint();
-
-tfItemName.setText("");
-
-tfItemPrice.setText("");
-
-
-//focus the textField.
-
-tfItemName.requestFocus();
-
-} else {
-
-System.out.print("In order to create an itemButton, at least the name is required");
-
-}
-
-}
-
-}
-
-}
-
 
 }

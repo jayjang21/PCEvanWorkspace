@@ -15,22 +15,6 @@ import org.json.simple.parser.ParseException;
  
 public class Store 
 {	    
-		static String a = "Fruit";
-		static String b = "Orange";
-		public static void main(String[] args)
-		{
-		//test method calls
-		//newitem(a,110);
-		//sale(b,117,15.09082215);
-		String c[] =  new String[3];
-		c[0] = "Apple";
-		c[1] = "10";
-		c[2] = "abc1234";
-		//delete("Items.json","Apple");
-		//newaddition("swagger.json",c);
-		newReceipt("blah",c);
-		readablesales("sales1.sales",c,3);
-		}
 		
 		private static int filesize(String file)
 		{

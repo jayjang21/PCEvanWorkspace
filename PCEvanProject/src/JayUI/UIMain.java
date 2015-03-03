@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.JList;
 import javax.swing.JButton;
 
@@ -33,7 +37,7 @@ import javax.swing.JLabel;
 
 import java.util.Arrays;
 
-public class UIMain extends JFrame implements KeyListener, ActionListener, DocumentListener{
+public class UIMain extends JFrame implements KeyListener, ActionListener, DocumentListener, ComponentListener, ListDataListener{
 
 	static JPanel contentPane;
 	static JPanel btnScrollContentPane;
@@ -56,6 +60,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 	static UISetting setting;
 	static UIMultiplyItem multiplyItem;
 	static UIMain frame;
+	static UICalculator calc;
 	
 	static JScrollPane btnScrollPane;
 	static JScrollPane itemScrollPane;
@@ -73,6 +78,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 	static JButton btnClear;
 	static JButton btnSetting;
 	static JButton btnMultiply;
+	static JButton btnCalculator;
+	
 	
 	
 	/**
@@ -86,6 +93,13 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 					frame.setExtendedState(MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					
+					calc = new UICalculator();
+					calc.setVisible(true);
+					calc.setBounds(1035,120,241,217);
+					calc.setResizable(false);
+					calc.setTitle("Calculator");
+					calc.setAlwaysOnTop(true);
+					//calc.pack();
 					
 					
 				} catch (Exception e) {
@@ -111,7 +125,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 		itemList.setSize(new Dimension(0,0));
 		itemList.setLocation(10,10);
 		//itemList.setLayoutOrientation(itemList.HORIZONTAL_WRAP);
-		contentPane.add(itemList, BorderLayout.WEST);
+		//contentPane.add(itemList, BorderLayout.WEST);
 		
 		
 		itemScrollPane = new JScrollPane();
@@ -159,6 +173,10 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			JButton btn = new JButton(String.format("%s", initItemNames.get(i - 1)));
 			btn.setSize(new Dimension(100,100));
 			setProperBtnLocation(btn);
+			String color = BackgroundMain2.getItem(initItemNames.get(i - 1)).getColour();
+			System.out.print(color);
+			btn.setBackground(UIAddItem.getBtnColor(color));
+			btn.setOpaque(true);
 			btn.addActionListener(this);
 			
 			button.add(btn);
@@ -255,6 +273,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 		btnSetting.setLocation(1205, 15);
 		contentPane.add(btnSetting, null);
 		
+		btnCalculator = new JButton("Calculator");
+		btnCalculator.setSize(new Dimension(80,40));
+		btnCalculator.setLocation(1120, 15);
+		contentPane.add(btnCalculator, null);
+		
 		lblTotalPrice = new JLabel("Total Price = $");
 		lblTotalPrice.setBounds(40, 530, 200, 16);
 		contentPane.add(lblTotalPrice);
@@ -278,6 +301,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 		contentPane.add(comboBox);
 		
 		
+
+		
 		
 		itemList.addKeyListener(this);
 		btnGenerator.addActionListener(this);
@@ -289,7 +314,12 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 		btnComboBoxMinus.addActionListener(this);
 		btnClear.addActionListener(this);
 		btnSetting.addActionListener(this);
+		btnCalculator.addActionListener(this);
 		
+		itemListModel.addListDataListener(this);
+		
+		
+		lblTotalPrice.addComponentListener(this);
 
 		setFocusable(true);
 
@@ -356,13 +386,14 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			double price = BackgroundMain2.getPrice(btn.getText());
 			//Need the information
 			//String priceStr = String.format("%f", price);
-			
+			BackgroundMain2.totalPrice += price; // get the price after the sale
+			//double sale = BackgroundMain2.getItem(btn.getText()).getSale() * 100;
+			//String btnText = String.format("%s - (%%%f)", btn.getText(), sale);// get the sale of the price
 			itemListModel.addElement(btn.getText());
 			itemListModel.addElement(price);
 			
 			setProperItemScrollPaneScroll();
 	
-			BackgroundMain2.totalPrice += price;
 			lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.getTotalPrice()));
 //lblTotalPrice.setText(String.format("%f", BackgroundMain2.getTotalPrice()));
 		}  
@@ -372,6 +403,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			
 			addItem = new UIAddItem();
 			addItem.setVisible(true);
+			addItem.setAlwaysOnTop(true);
 			//this.add(addItem);
 			/*buttonI ++;
 			JButton btn = new JButton("ChinGuard");
@@ -416,6 +448,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			
 			deleteItem = new UIDeleteItem();
 			deleteItem.setVisible(true);
+			deleteItem.setAlwaysOnTop(true);
 		} else if (e.getSource() == btnMinus){
 			
 			int ind = itemList.getSelectedIndex();
@@ -465,7 +498,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			comboBox.removeItem(comboBox.getSelectedItem());
 			comboBox.getEditor().setItem("");
 		} else if (e.getSource() == btnClear){
+			BackgroundMain2.totalPrice = 0;
+
 			itemListModel.removeAllElements();
+			
+			//calculatorCleanAll();
 			
 			int y = itemListModel.getSize();
 			
@@ -473,14 +510,23 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			//itemScrollPane.setPreferredSize(new Dimension(200,y*100));
 			itemList.setSize(180,y*15+y*3);
 	
-			BackgroundMain2.totalPrice = 0;
 			lblTotalPrice.setText("Total Price = $");
 		} else if (e.getSource() == btnSetting){
 			setting = new UISetting();
 			setting.setVisible(true);
+			setting.setAlwaysOnTop(true);
 		} else if (e.getSource() == btnMultiply){
 			multiplyItem = new UIMultiplyItem();
 			multiplyItem.setVisible(true);
+			multiplyItem.setAlwaysOnTop(true);
+		} else if (e.getSource() == btnCalculator){
+			calc = new UICalculator();
+			calc.setVisible(true);
+			calc.setBounds(1035,120,241,217);
+			calc.setResizable(false);
+			calc.setTitle("Calculator");
+			calc.setAlwaysOnTop(true);
+			//calc.pack();
 		}
 		}
 	public static void setProperBtnLocation(JButton btn){
@@ -515,6 +561,15 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 		itemList.setSize(180,y*15+y*3);
 	}
 
+	public static void setlblTotalPrice(){
+		
+			calc.setDisplayString(String.format("%f", BackgroundMain2.totalPrice) );
+			calc.lastOperator = "0";
+			calc.lastNumber = 0;
+			calc.displayMode = calc.INPUT_MODE;
+			calc.clearOnNextDigit = true;
+			
+	}
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
@@ -530,7 +585,71 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
+		//UICalculator.clearAll();
 		
+		
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+	@Override
+	public void intervalAdded(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == itemListModel){
+			calculatorCleanAll();
+
+			}
+	}
+
+	@Override
+	public void intervalRemoved(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == itemListModel){
+			calculatorCleanAll();
+
+			}
+	}
+
+	@Override
+	public void contentsChanged(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == itemListModel){
+		calculatorCleanAll();
+		}
+	}
+	
+	public void calculatorCleanAll(){
+			calc.setDisplayString(String.format("%f", BackgroundMain2.totalPrice) );
+			calc.lastOperator = "0";
+			calc.lastNumber = 0;
+			calc.displayMode = calc.INPUT_MODE;
+			calc.clearOnNextDigit = true;
+			
+					
 	}
 	}
 	

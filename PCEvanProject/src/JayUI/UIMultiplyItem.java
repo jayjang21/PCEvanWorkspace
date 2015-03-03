@@ -38,6 +38,7 @@ public class UIMultiplyItem extends JFrame implements ActionListener {
 				try {
 					UIMultiplyItem frame = new UIMultiplyItem();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -109,13 +110,13 @@ public class UIMultiplyItem extends JFrame implements ActionListener {
 				double price = BackgroundMain2.getPrice(itemName);
 				//Need the information
 				//String priceStr = String.format("%f", price);
-				
+				BackgroundMain2.totalPrice += price;
+
 				UIMain.itemListModel.addElement(itemName);
 				UIMain.itemListModel.addElement(price);
 				
 				UIMain.setProperItemScrollPaneScroll();
 		
-				BackgroundMain2.totalPrice += price;
 				UIMain.lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.getTotalPrice()));
 	//lblTotalPrice.setText(String.format("%f", BackgroundMain2.getTotalPrice()));
 			}

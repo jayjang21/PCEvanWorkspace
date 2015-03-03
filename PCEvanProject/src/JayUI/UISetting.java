@@ -54,6 +54,7 @@ static JLabel lblItemStatusName;
 static JLabel lblItemStatusPrice;
 static JLabel lblItemStatusGST;
 static JLabel lblItemStatusPST;
+static JLabel lblItemStatusSale;
 static JButton btnSavePath;
 static JButton btnRevert;
 static JButton btnViewItemStatus;
@@ -124,6 +125,11 @@ lblItemStatusPST.setBounds(25, 200, 150, 20);
 contentPane.add(lblItemStatusPST, BorderLayout.WEST);
 
 
+lblItemStatusSale = new JLabel("Item Sale : %");
+lblItemStatusSale.setBounds(23, 230, 150, 20);
+contentPane.add(lblItemStatusSale, BorderLayout.WEST);
+
+
 btnSavePath = new JButton("Save Path");
 btnSavePath.setBounds(300,37,80,20);
 contentPane.add(btnSavePath, BorderLayout.NORTH);
@@ -180,6 +186,7 @@ nameExists = true;
 double Price = BackgroundMain2.getItem(bt.getText()).getPrice();
 double GST = BackgroundMain2.getItem(bt.getText()).getGST()*100;
 double PST = BackgroundMain2.getItem(bt.getText()).getPST()*100;
+double Sale = BackgroundMain2.getItem(bt.getText()).getSale()*100;
 
 lblItemStatusPrice.setText(String.format("Item Price : $%s", Price));
 lblItemStatusGST.setText(String.format("Item GST : %%%s", GST));

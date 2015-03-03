@@ -7,6 +7,17 @@ public class Items {
 		this.price = price;
 		this.PST = PST;
 		this.GST = GST;
+		this.sale = 0;
+		this.colour = "white";
+	}
+	
+	public Items(String name , double price , double PST , double GST , double sale , String colour){
+		this.name = name;
+		this.price = price;
+		this.PST = PST;
+		this.GST = GST;
+		setSale(sale);
+		this.colour = colour;
 	}
 	
 	
@@ -15,7 +26,8 @@ public class Items {
 	private double price;
 	private double PST;
 	private double GST;
-	
+	private double sale;
+	private String colour;
 	
 	
 	
@@ -43,6 +55,22 @@ public class Items {
 	}
 	public void setGST(double gST) {
 		GST = gST;
+	}
+	public double getSale() {
+		return sale;
+	}
+	public void setSale(double sale) {
+		if(sale != 0){
+			this.sale = sale / 100;
+		}else{
+		this.sale = 0;
+		}
+	}
+	public String getColour() {
+		return colour;
+	}
+	public void setColour(String colour) {
+		this.colour = colour;
 	}
 	
 	//STUF
