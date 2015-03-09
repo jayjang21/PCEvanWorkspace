@@ -613,7 +613,7 @@ if ((!inputString.equals("0") || digit > 0)  && inputString.length() < MAX_INPUT
 			i = 9;
 			numberPressed = true;
 
-		} else if (e.getKeyCode() == KeyEvent.VK_EQUALS){
+		} /*else if (e.getKeyCode() == KeyEvent.VK_EQUALS){
 			processOperator("+");
 
 		} else if (e.getKeyCode() == KeyEvent.VK_MINUS){
@@ -625,7 +625,7 @@ if ((!inputString.equals("0") || digit > 0)  && inputString.length() < MAX_INPUT
 		} else if (e.getKeyCode() == KeyEvent.VK_SLASH){
 			processOperator("/");
 
-		} else if (e. getKeyCode() == KeyEvent.VK_PERIOD){
+		}*/ else if (e. getKeyCode() == KeyEvent.VK_PERIOD){
 			addDecimalPoint();
 
 		} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){

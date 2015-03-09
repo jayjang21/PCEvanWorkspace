@@ -357,6 +357,7 @@ public void generateButton(){
 	btn.setSize(new Dimension(100,100));
 	
 	btn.setBackground(getBtnColor(comboBox.getEditor().getItem().toString()));
+	btn.setForeground(getBtnColor(comboBox.getEditor().getItem().toString()));
 	btn.setOpaque(true);
 	UIMain.setProperBtnLocation(btn);
 
@@ -393,8 +394,7 @@ public void generateButton(){
 
 	} else {
 
-	itemPrice = Double.parseDouble(tfItemPrice.getText());
-
+	itemPrice = BackgroundMain2.roundOffDouble(Double.parseDouble(tfItemPrice.getText()));
 	}
 
 
@@ -404,7 +404,7 @@ public void generateButton(){
 
 	} else {
 
-	itemGST = Double.parseDouble(tfItemPST.getText());
+	itemGST = BackgroundMain2.roundOffDouble(Double.parseDouble(tfItemPST.getText()));
 
 	}
 
@@ -415,7 +415,7 @@ public void generateButton(){
 
 	} else {
 
-	itemPST = Double.parseDouble(tfItemGST.getText());
+	itemPST = BackgroundMain2.roundOffDouble(Double.parseDouble(tfItemGST.getText()));
 
 	}
 
@@ -426,7 +426,7 @@ public void generateButton(){
 
 		} else {
 
-		itemSale = Double.parseDouble(tfItemSale.getText());
+		itemSale = BackgroundMain2.roundOffDouble(Double.parseDouble(tfItemSale.getText()));
 
 		}
 
@@ -443,6 +443,7 @@ public void generateButton(){
 	tfItemName.setText("");
 
 	tfItemPrice.setText("");
+	tfItemSale.setText("");
 
 
 	//focus the textField.

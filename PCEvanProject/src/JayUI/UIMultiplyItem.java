@@ -110,6 +110,7 @@ public class UIMultiplyItem extends JFrame implements ActionListener {
 				double price = BackgroundMain2.getPrice(itemName);
 				//Need the information
 				//String priceStr = String.format("%f", price);
+				
 				BackgroundMain2.totalPrice += price;
 
 				UIMain.itemListModel.addElement(itemName);

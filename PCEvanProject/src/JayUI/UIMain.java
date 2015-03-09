@@ -113,6 +113,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 	 * Create the frame.
 	 */
 	public UIMain() {
+		this.setTitle("Bob's Cash Register");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -175,8 +177,11 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			setProperBtnLocation(btn);
 			String color = BackgroundMain2.getItem(initItemNames.get(i - 1)).getColour();
 			System.out.print(color);
+		
+			btn.setForeground(UIAddItem.getBtnColor(color));
 			btn.setBackground(UIAddItem.getBtnColor(color));
 			btn.setOpaque(true);
+			btn.setBorderPainted(true);
 			btn.addActionListener(this);
 			
 			button.add(btn);
@@ -367,7 +372,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 				}
 			
 			
-				lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.totalPrice));
+				lblTotalPrice.setText(String.format("Total Price = $%f", BackgroundMain2.getTotalPrice()));
 		}
 	}
 
@@ -383,7 +388,7 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 		for(JButton btn : button){
 		if (e.getSource() == btn){
 			System.out.print("test");
-			double price = BackgroundMain2.getPrice(btn.getText());
+			double price = BackgroundMain2.roundOffDouble((BackgroundMain2.getPrice(btn.getText())));
 			//Need the information
 			//String priceStr = String.format("%f", price);
 			BackgroundMain2.totalPrice += price; // get the price after the sale
@@ -651,6 +656,8 @@ public class UIMain extends JFrame implements KeyListener, ActionListener, Docum
 			
 					
 	}
+	
+	
 	}
 	
 	

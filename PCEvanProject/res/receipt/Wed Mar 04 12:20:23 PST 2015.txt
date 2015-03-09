@@ -1,0 +1,8 @@
+test8      Base: $2.68  PST: $0.0  GST: $0.0  Sale -$2.65 (%99.0)
+0.03
+test6      Base: $4.46  PST: $0.22  GST: $0.31  Sale -$0.0 (%0.0)
+5.0
+test5      Base: $29.46  PST: $1.33  GST: $1.86  Sale -$2.95 (%10.0)
+29.7
+Total Price = $34.730000
+Cash

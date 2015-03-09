@@ -191,6 +191,7 @@ double Sale = BackgroundMain2.getItem(bt.getText()).getSale()*100;
 lblItemStatusPrice.setText(String.format("Item Price : $%s", Price));
 lblItemStatusGST.setText(String.format("Item GST : %%%s", GST));
 lblItemStatusPST.setText(String.format("Item PST : %%%s", PST));
+lblItemStatusSale.setText(String.format("Item Sale : %%%s", Sale));
 
 
 break;

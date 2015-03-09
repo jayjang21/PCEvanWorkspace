@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class BackgroundMain2 {
                 try {
                         FileWriter writer = new FileWriter(file);
                         writer.write(obj.toJSONString());
+                        writer.close();
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
@@ -73,9 +76,9 @@ public class BackgroundMain2 {
                 //totalPrice += i.getPrice();
                 double base = i.getPrice() / (i.getPST() + i.getGST() + 1);
                 double sale = base * i.getSale();
-                double total = (base - sale) + (base * i.getPST()) + (base * i.getGST());
-
-                return total;
+                double total = base - sale;
+                total = total + (total * i.getPST()) + (total * i.getGST());
+                return roundOffDouble(total);
         }
 
         public static double getTotalPrice(){
@@ -98,7 +101,7 @@ public class BackgroundMain2 {
 
                 String[] string =  Store.getitems("res" + "/" + name + ".txt");
                 JSONObject obj = new JSONObject();
-                
+
                 System.out.print(string[1]);
                 System.out.print(string[2]);
 
@@ -176,7 +179,7 @@ public class BackgroundMain2 {
                 File filee = new File(path + "/" + "receipt");
                 if(!filee.exists())
                 filee.mkdir();
-                
+
                 calculateGSTPST(items);
 
                 File file = new File(path + "/" + "receipt" + "/" + date + ".txt" );
@@ -197,15 +200,19 @@ public class BackgroundMain2 {
                                                 Items item = getItem(h);
                                                 double base = item.getPrice() / (item.getPST() + item.getGST() + 1);
                                                 double sale = base * item.getSale();
-                                                base = base - sale;
-
+                                                base = BackgroundMain2.roundOffDouble(base);
+                                                sale = BackgroundMain2.roundOffDouble(sale);
 
                                                 for(int ii = h.length(); ii < ll + 5 ; ii++){
                                                         h = h + " ";
                                                 }
-                                                h = h + " PST: $" + (base * item.getPST());
+                                                h = h + " Base: $" + base;
 
-                                                h = h + " GST: $" + (base * item.getGST());
+                                                h = h + "  PST: $" + roundOffDouble(((base - sale) * item.getPST()));
+
+                                                h = h + "  GST: $" + roundOffDouble(((base - sale) * item.getGST()));
+
+                                                h = h + "  Sale -$" + sale + " (%" + item.getSale() * 100 + ")";
                                         }
                                 }
                                 writer.write(h);
@@ -229,7 +236,12 @@ public class BackgroundMain2 {
                 double base = item.getPrice() / (item.getPST() + item.getGST() + 1);
                 PST = PST + (base * item.getPST());
                 GST = GST + (base * item.getGST());
+                PST = BackgroundMain2.roundOffDouble(PST);
+                GST = BackgroundMain2.roundOffDouble(GST);
+                
                 }
+                
+                
                 totalGSTPST(PST , GST);
         }
 
@@ -386,6 +398,8 @@ public class BackgroundMain2 {
                 obj.put("GST", i.getGST());
                 obj.put("sale", i.getSale());
                 obj.put("colour", i.getColour());
+
+
                 return obj.toJSONString();
         }
 
@@ -408,6 +422,14 @@ public class BackgroundMain2 {
         public static void delete(String name){
                 Store.deletefile("res" + "/" + name);
         }
+        
+        /*public static double round(double value, int places) {
+            if (places < 0) throw new IllegalArgumentException();
+
+            BigDecimal bd = new BigDecimal(value);
+            bd = bd.setScale(places, RoundingMode.HALF_UP);
+            return bd.doubleValue();
+        }*/
         /*
 
         public static void main(String[] args){
@@ -426,4 +448,8 @@ public class BackgroundMain2 {
 
 
         */
+        public static double roundOffDouble(double a){
+    		double roundOff = Math.round(a * 100.0) / 100.0;
+    		return roundOff;
+    	}
 }

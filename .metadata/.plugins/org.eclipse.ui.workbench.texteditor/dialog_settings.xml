@@ -3,26 +3,26 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="263" key="DIALOG_WIDTH"/>
 		<item value="78" key="DIALOG_Y_ORIGIN"/>
-		<item value="928" key="DIALOG_X_ORIGIN"/>
 		<item value="399" key="DIALOG_HEIGHT"/>
+		<item value="905" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Items" key="selection"/>
+		<item value="double base" key="selection"/>
 		<list key="findhistory">
-			<item value="items"/>
-			<item value="writeReceipt"/>
-			<item value="PST"/>
-			<item value=".PST"/>
-			<item value="getPST"/>
-			<item value="setPST"/>
-			<item value="set"/>
-			<item value="0"/>
+			<item value="double base"/>
+			<item value="totalGST"/>
+			<item value="calculateGST"/>
+			<item value="otalPrice"/>
+			<item value="totalPrice"/>
+			<item value="getTotalPrice"/>
+			<item value="roundOff"/>
+			<item value="roundOffDouble"/>
 		</list>
 		<list key="replacehistory">
 		</list>
